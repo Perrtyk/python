@@ -1,1 +1,1 @@
-Lab 1 focuses of variables and basic functions such as casting into float(), str(), and int().
+Lab 1 focuses on variables and basic functions such as casting into float(), str(), and int().

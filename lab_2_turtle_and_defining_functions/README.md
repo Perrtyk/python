@@ -1,0 +1,1 @@
+Lab 2 focuses on using algorithmic thinking to draw shapes using turtle and defined functions.
