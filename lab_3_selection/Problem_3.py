@@ -60,12 +60,15 @@ Algorithm
 '''
 import random
 
+
+#   this function generates two random numbers
 def rand_num(min, max):
     """ assigns initial random numbers with minimum and maximum values """
     num1, num2 = random.randint(min, max), random.randint(min, max)
     return num1, num2
 
 
+#   this function prompts and gathers input from the user based on generated numbers
 def gather_input(num1, num2):
     """ prints math question using num1 and num2 variables """
     print('Welcome to the addition practice program.\n'
@@ -74,6 +77,7 @@ def gather_input(num1, num2):
     return user_ans
 
 
+#   this function checks the user's input against real answer
 def check_result(num1, num2, user_ans):
     """ validates whether the user's input matches the database answer, assigns message """
     if user_ans == (num1 + num2):
@@ -82,6 +86,8 @@ def check_result(num1, num2, user_ans):
         message = 'You are incorrect! The correct answer is ' + str(num1 + num2) + '.'
     return message
 
+
+#   this function runs all previous functions in combination
 def main():
     """ runs main code, alter number range in rand_num function here """
     num1, num2, = rand_num(10, 999)
@@ -93,3 +99,7 @@ def main():
 # call main when this file is run
 if __name__ == '__main__':
   main()
+
+#   In this problem, I started to incorporate string formatting to begin practicing it.
+#   String formatting so far has been my weakness so I intend to use it more moving
+#   forward.
