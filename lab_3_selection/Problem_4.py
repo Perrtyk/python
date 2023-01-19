@@ -1,4 +1,3 @@
-#
 # Patryk Kostek
 # Lab 3 Problem 4
 #
