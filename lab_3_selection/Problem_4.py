@@ -89,7 +89,7 @@ def main():
 
 #   call main when this file is run
 if __name__ == '__main__':
-  main()
+    main()
 
 #   With this program, I had fun experimenting with lists for the first time. Using lists
 #   I was able to cut down on the amount of code significantly. I also began to learn how
