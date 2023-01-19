@@ -68,7 +68,7 @@ def display_color(color1, color2):
         color3 = "\033[32m green \033[0m"
 #   prints error message if invalid color is provided
     else:
-        print(f'Error: {color1} or {color2} is an invalid color from above.\n'
+        print(f'Error: {color1} or {color2} are an invalid combination from above.\n'
               f'try this...  Color1: yellow')
 #   returns the mixed color as variable color3 for use in main() function
     return color3
