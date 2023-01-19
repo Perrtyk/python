@@ -54,9 +54,7 @@ def display_color(color1, color2):
 #   defines color3 for later use / error handling
     color3 = None
 #   defining the color lists
-    orange = ['red', 'yellow']
-    purple = ['red', 'blue']
-    green = ['yellow', 'blue']
+    orange, purple, green = ['red', 'yellow'], ['red', 'blue'], ['yellow', 'blue']
 #   check if color1 and color2 in orange combination list, set color3 to orange
     if color1.lower() in orange and color2.lower() in orange:
         color3 = "\033[33m orange \033[0m"
