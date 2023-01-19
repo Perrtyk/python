@@ -76,7 +76,9 @@ def display_color(color1, color2):
 
 def main():
     """ prints welcome message and provides the main program """
-    combo_color = ['orange', 'purple', 'green']
+    combo_color = ['\033[33m orange \033[0m',
+                   '\033[35m purple \033[0m',
+                   '\033[32m green \033[0m']
     print("Welcome to the color mixer! Please select 2 of these colors!\n"
           "     Yellow     Red     Blue     ")
     color1, color2, = gather_input()
