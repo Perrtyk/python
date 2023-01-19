@@ -1,3 +1,7 @@
+#
+# Patryk Kostek
+# Lab 3 Problem 4
+#
 '''
     Design and implement a program that asks the user to enter two of 3 primary colors,
     red, yellow or blue.  The program should display a message indicating the secondary
@@ -8,12 +12,8 @@
     the first and second color.  It should display the secondary color based on the 2
     parameter colors.  main should get the input from the user and call the displayColor
     function.
-'''
-#
-# Patryk Kostek
-# Lab 3 Problem 4
-#
-'''
+
+
 IPO Chart:
     Input
         color1, color2
@@ -24,6 +24,7 @@ IPO Chart:
         display message with color3
     Output
         display message with color3
+
 
 Algorithm:
 
