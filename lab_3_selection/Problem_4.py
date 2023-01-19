@@ -87,7 +87,7 @@ def main():
         print('Error: These values cannot be mixed.')
 
 
-# call main when this file is run
+#   call main when this file is run
 if __name__ == '__main__':
   main()
 
