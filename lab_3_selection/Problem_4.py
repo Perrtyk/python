@@ -27,6 +27,12 @@ IPO Chart:
 
 Algorithm:
 
+    gather_input
+        gather input, define color1
+        gather input, define color2
+        return color1 and color2
+    end gather_input
+
     display_color(color1, color2)
             if color1 is red and color2 is yellow
                 then color3 is orange
@@ -38,7 +44,15 @@ Algorithm:
                 state error handle code
      end display_color
         
-
+    main
+        define the list of combination colors
+        print the welcome message
+        define color1 and color2 from gather_input
+        define color 3 from display_color
+        if color 3 is in list of combination colors
+            print the color mixture
+        else print the error handling message
+    end main
 '''
 
 
