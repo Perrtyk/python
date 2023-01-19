@@ -43,9 +43,7 @@ IPO Chart:
 
 Algorithm:
     gather_input
-        gather input, define color1
-        gather input, define color2
-        return color1 and color2
+        gather input, define u_choice
     end gather_input
 
     display_color(color1, color2)
@@ -60,12 +58,10 @@ Algorithm:
      end display_color
 
     main
-        define the list of combination colors
-        print the welcome message
-        define color1 and color2 from gather_input
-        define color 3 from display_color
-        if color 3 is in list of combination colors
-            print the color mixture
-        else print the error handling message
+        display welcome message
+        display option selection
+        gather input, define u_choice
+        run rand_gen, define c_choice
+        run display_winner(u_choice, c_choice)
     end main
 '''
