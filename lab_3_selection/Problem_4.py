@@ -27,7 +27,6 @@ IPO Chart:
 
 
 Algorithm:
-
     gather_input
         gather input, define color1
         gather input, define color2
