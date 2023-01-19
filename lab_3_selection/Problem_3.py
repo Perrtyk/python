@@ -67,8 +67,10 @@ def rand_num(min, max):
 
 
 def gather_input(num1, num2):
-    """ prints math question and prompts user for input, stores in user_ans """
-    user_ans = input(f'{num1:3} + {num2:3} = ')
+    """ prints math question using num1 and num2 variables """
+    print('Welcome to the addition practice program.\n'
+          'Please answer the following question:')
+    user_ans = input(f'{num1} + {num2} = ')
     return user_ans
 
 
@@ -81,11 +83,13 @@ def check_result(num1, num2, user_ans):
     return message
 
 def main():
-    """ runs main code, alter number range in randum_num function here """
+    """ runs main code, alter number range in rand_num function here """
     num1, num2, = rand_num(10, 999)
     user_ans = gather_input(num1, num2)
     message =  check_result(num1, num2, user_ans)
     print(message)
 
 
-main()
+# call main when this file is run
+if __name__ == '__main__':
+  main()
