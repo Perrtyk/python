@@ -1,0 +1,507 @@
+# Patryk Kostek
+# Lab 3 Problem 1
+'''
+Design and implement a program that determines if a person qualifies for a loan based on
+his/her/their annual salary and length of employment at his/her/their current job.
+In order to qualify a loan you must earn at least $40K per year and have worked at your
+job for at least 1 year.  Your solution should have at least a main function.
+'''
+#
+# IPO Chart:
+#
+# Input:
+# input salary, length
+#
+# Processing:
+# define min_income
+# define min_length
+# get salary, employ_length
+# if salary >= min_income and employ_length >= min_length
+#   then print(" Congratulations, you qualified for the loan! ")
+#   else print(" I am sorry... unfortunately you do not qualify.. ")
+
+# Output:
+# message
+#
+# Example:
+# .5 year and 30K - don't qualify
+# .5 year and 50K - don't qualify
+# 3 years and 30K - don't qualify
+# 3 years and 50K - do qualify
+#
+#
+# Algorithm
+#    display instructions
+#    get salary
+#    get employ_length
+#
+#    if salary >= min_income and employ_length >= min_length then
+#        message = str( Congratulations, you qualify! )
+#    else
+#        message = str( Sorry.. you don't qualify... )
+#    end if
+#
+#    print(message)
+
+
+#   gathers how much is the user's salary and their employment length
+def user_input():
+    """ gather user's input, return in salary, employ_length"""
+    salary = float(input('What is your salary? (Ex: 40k = 40000): '))
+    employ_length = float(input('How long have you been working? (40Ex: 1 year = 1): '))
+    return salary, employ_length
+
+
+#   processes the input to see if the user qualifies for the loan
+def process(min_income, min_length):
+    """ runs the process based on 'min income' income and at least 'length' years """
+    salary, employ_length = user_input()
+    if salary >= min_income and employ_length >= min_length:
+        message = str('Congratulations you qualify!')
+    else:
+        message = str('Sorry... you dont you qualify!')
+    return print(message)
+
+
+#   prints the welcome message and runs the process which has user_input embedded
+def main():
+    print('Please provide us with the following information to see '
+          'if you approve for our loan. ')
+    process(40000, 1)
+
+
+if __name__ == '__main__':
+    main()
+
+#   With this problem I found I was not very familiar with operators such as >=. I began
+#   by researching examples from the book and was able to build my if statement.
+
+-----------------------------------------------------------------------------------------
+
+# Patryk Kostek
+# Lab 3 Problem 2
+#
+'''
+    Design and implement a program that implements a calculator.  The program should ask
+    the user to enter 2 integer
+    values as well as one of 6 arithmetic operators (+, -, *, /, //, %).  The program should
+    display the arithmetic operation as well as the result.  When the user enters an arithmetic
+    operator that is not one of the 6 valid operators, the program should display an
+    appropriate error message rather than the results of the calculation.  Your solution
+    should have a function called calculator as well as a main function.  calculator should 3
+    parameters, the 2 integer values as well as the arithmetic operator.  calculator should
+    display the arithmetic expression as well as the result.  main should get the input from
+    the user and then call the calculator function, provided that the input is valid.
+IPO Chart:
+Input
+    number1, number2, operator
+Processing
+    get number1
+    get number2
+    get operator
+    determine if operator is valid
+    do calculation
+Output
+    calculation and result
+Example
+    3 2 + should print 3 + 2 is 5
+    3 2 & should print an error message
+Algorithm:
+    calculator (number1, number2, operator)
+        if operator is +
+            display number1 + number 2 is (number1 + number2)
+        else if operator is -
+            display number1 - number 2 is (number1 - number2)
+        else if operator is *
+             display number1 * number 2 is (number1 * number2)
+        else if operator is /
+             display number1 / number 2 is (number1 / number2)
+        else if operator is //
+             display number1 // number 2 is (number1 // number2)
+        else if operator is %
+             display number1 % number 2 is (number1 % number2)
+        else
+            display error message
+        end if
+  end calculator
+    main
+        display instructions
+        get number1
+        get number2
+        get operator
+        calculator (number1, number2, operator)
+    end main
+'''
+
+
+#   uses number1, number2 and operator to calculate the answer
+def calculator(number1, number2, operator):
+    '''Acts as a simple calculator.  Takes 2 operands and an arithmetic operator as parameters.  Displays the result.'''
+    if operator == '+':
+        print(f"{number1} + {number2} = {(number1 + number2)}")
+    elif operator == '-':
+        print(f"{number1} - {number2} = {(number1 - number2)}")
+    elif operator == '*':
+        print(f"{number1} * {number2} = {(number1 * number2)}")
+    elif operator == '/':
+        print(f"{number1} / {number2} = {(number1 / number2)}")
+    elif operator == '//':
+        print(f"{number1} // {number2} = {(number1 // number2)}")
+    elif operator == '%':
+        print(f"{number1} % {number2} = {(number1 % number2)}")
+    else:
+        print('Error, invalid operator.')
+
+
+#   gathers input from the user and uses the calculator(x, y, z) function
+def main():
+    """ prints welcome statement and gather input, uses calculator(x, y, z) """
+    print('This program is a simple calculator.  The valid operators are +, -, *, /, //, %')
+    number1 = int(input("Please enter the first number: "))
+    number2 = int(input("Please enter the second number: "))
+    operator = input("Please enter the arithmetic operator: ")
+# calls the function calculator passing the numbers and the operator as parameters
+    calculator(number1, number2, operator)
+
+
+# call main when this file is run
+if __name__ == '__main__':
+    main()
+
+#   With this problem, I began to get comfortable with the if, elif and else statements.
+#   It took some trial and error, but I was able to get the calculator function working
+#   as well as the error handling.
+
+-----------------------------------------------------------------------------------------
+
+# Patryk Kostek
+# Lab 3 Problem 3
+#
+'''
+    Design and implement a program that can be used by 2nd grade students to practice addition of up
+    to 3 digit numbers.  The program should generate 2 random integers between 10 and 999 and display
+    the 2 numbers to the user.  The user should be allowed to enter his/her/their answer to the
+    addition problem.   The program should tell the user when his/her/their answer is correct and
+    should display the correct answer when the answer is incorrect.  You may edit your solution to
+    the problem from lab 1.   Your solution should have a function called checkResult as well as a
+    main function.  checkResult should have 3 parameters, the first and second random number as well
+    as the user's answer.  checkResult should check the user's answer and display an appropriate
+    message.  main should generate the random numbers, display the problem to the user and get
+    the user's answer before calling checkResult.
+Input
+  user_ans
+Processing
+    import random library
+    define num1 and num2 as random numbers
+    display the problem to the user
+    gather input and use in check_result
+    if correct:
+        message is correct statement
+    else:
+        message is wrong statement
+Output
+	message
+Example
+  100 + 200 = 305   should print 'That is incorrect. The answer is 300!'
+  100 + 200 = 300   should print 'That is correct!'
+Algorithm
+  process
+    assign min, max variables
+    assign num1 and num2 random number
+    return num1 and num2 for later use
+  end process
+  
+  gather_input
+    display 'num1 + num2 = '
+    prompt user for input to variable user_ans
+    define variable user_ans
+    return user_ans for later use
+  end gather_input
+  
+  check_result(num1, num2, user_ans)
+    if user_ans is num1 + num2
+        assign message correct statement
+    else
+        assign message incorrect statement
+        return message for later use
+  end check_result
+'''
+#
+import random
+
+
+#   this function generates two random numbers
+def rand_num(min, max):
+    """ assigns initial random numbers with minimum and maximum values """
+    num1, num2 = random.randint(min, max), random.randint(min, max)
+    return num1, num2
+
+
+#   this function prompts and gathers input from the user based on generated numbers
+def gather_input(num1, num2):
+    """ prints math question using num1 and num2 variables """
+    print('Welcome to the addition practice program.\n'
+          'Please answer the following question:')
+    user_ans = input(f'{num1} + {num2} = ')
+    return user_ans
+
+
+#   this function checks the user's input against real answer
+def check_result(num1, num2, user_ans):
+    """ validates whether the user's input matches the database answer, assigns message """
+    if user_ans == (num1 + num2):
+        message = 'You are correct!'
+    else:
+        message = 'You are incorrect! The correct answer is ' + str(num1 + num2) + '.'
+    return message
+
+
+#   this function runs all previous functions in combination
+def main():
+    """ runs main code, alter number range in rand_num function here """
+    num1, num2, = rand_num(10, 999)
+    user_ans = gather_input(num1, num2)
+    message =  check_result(num1, num2, user_ans)
+    print(message)
+
+
+# call main when this file is run
+if __name__ == '__main__':
+  main()
+
+#   In this problem, I started to incorporate string formatting to begin practicing it.
+#   String formatting so far has been my weakness so I intend to use it more moving
+#   forward.
+
+-----------------------------------------------------------------------------------------
+
+# Patryk Kostek
+# Lab 3 Problem 4
+#
+'''
+    Design and implement a program that asks the user to enter two of 3 primary colors,
+    red, yellow or blue.  The program should display a message indicating the secondary
+    color that is produced by mixing the two primary colors chosen.  Red + Yellow is
+    Orange, Red + Blue is Purple, Yellow + Blue is Green.  It is NOT necessary to
+    validate the input from the user.  Your solution should have a function called
+    displayColor as well as a main function.  displayColor should have 2 parameters,
+    the first and second color.  It should display the secondary color based on the 2
+    parameter colors.  main should get the input from the user and call the displayColor
+    function.
+IPO Chart:
+    Input
+        color1, color2
+    Processing
+        display welcome message
+        gather color1, color2 inputs from user
+        display_color function to gather color3
+        display message with color3
+    Output
+        display message with color3
+Algorithm:
+    gather_input
+        gather input, define color1
+        gather input, define color2
+        return color1 and color2
+    end gather_input
+    display_color(color1, color2)
+            if color1 is red and color2 is yellow
+                then color3 is orange
+            elsif color1 is red and color2 is blue
+                then color3 is purple
+            elsif color1 is yellow and color2 is blue
+                then color3 is green
+            else
+                state error handle code
+     end display_color
+        
+    main
+        define the list of combination colors
+        print the welcome message
+        define color1 and color2 from gather_input
+        define color 3 from display_color
+        if color 3 is in list of combination colors
+            print the color mixture
+        else print the error handling message
+    end main
+'''
+
+
+def gather_input():
+    """ gathers the input from user for color1 and color2 """
+    color1 = input('Color 1: ')
+    color2 = input('Color 2: ')
+    return color1, color2
+
+
+def display_color(color1, color2):
+    """ checks for color combinations of color1 and color2 against lists """
+#   defines color3 for later use / error handling
+    color3 = None
+#   defining the color lists
+    orange, purple, green = ['red', 'yellow'], ['red', 'blue'], ['yellow', 'blue']
+#   check if color1 and color2 in orange combination list, set color3 to orange
+    if color1.lower() in orange and color2.lower() in orange:
+        color3 = "\033[33m orange \033[0m"
+#   check if color1 and color2 in purple combination list, set color3 to purple
+    elif color1.lower() in purple and color2.lower() in purple:
+        color3 = "\033[35m purple \033[0m"
+#   check if color1 and color2 in green combination list, set color3 to green
+    elif color1.lower() in green and color2.lower() in green:
+        color3 = "\033[32m green \033[0m"
+#   prints error message if invalid color is provided
+    else:
+        print(f'Error: {color1} or {color2} are an invalid combination from above.\n'
+              f'try this...  Color1: yellow')
+#   returns the mixed color as variable color3 for use in main() function
+    return color3
+
+
+def main():
+    """ prints welcome message and provides the main program """
+    combo_color = ['\033[33m orange \033[0m',
+                   '\033[35m purple \033[0m',
+                   '\033[32m green \033[0m']
+    print("Welcome to the color mixer! Please select 2 of these colors!\n"
+          "     Yellow     Red     Blue     ")
+    color1, color2, = gather_input()
+    color3 = display_color(color1, color2)
+    if color3 in combo_color:
+        print(f'Your colors mixed into{color3}!')
+    else:
+        print('Error: These values cannot be mixed.')
+
+
+#   call main when this file is run
+if __name__ == '__main__':
+    main()
+
+#   With this program, I had fun experimenting with lists for the first time. Using lists
+#   I was able to cut down on the amount of code significantly. I also began to learn how
+#   to adjust the font color of the string commands.
+
+-----------------------------------------------------------------------------------------
+
+# Patryk Kostek
+# Lab 3 Problem 5
+#
+'''
+    Design and implement a program that allows the user to play Rock Paper Scissors
+    (Lizard Spock anyone?)  against the computer.  The user begins by entering either
+    Rock, Paper or Scissors at the keyboard.  The computer's move should be implemented
+    by generating a random number between 1 and 3.  1 = Rock, 2 = Paper, 3 = Scissors.
+    The program should display the user's move as well as the computer's move AND should
+    display who won.  It is NOT necessary to validate the input from the user.  Your
+    solution should have a function called displayWinner as well as main function.
+    displayWinner should have 2 parameters, the user's choice and the computer's choice.
+    displayWinner should display each choice as well as who won.  main should generate the
+    computer's choice, get the user's choice and call the displayWinner function.
+IPO Chart:
+    Input
+        u_choice
+    Processing
+        import random library
+        define constants 1 = ROCK, 2 = PAPER, 3 = SCISSORS
+        define random_num function, generate number 1-3 return as c_choice
+        define gather_input function, gathers constant  return as u_choice
+        define display_winner(u_choice, c_choice) function
+            if u_choice is same as c_choice then
+                message is 'It's a Tie!'
+            elif u_choice is rock and c_choice is scissors
+                message is 'You win, rock beats scissors!
+            elif u_choice is scissors and c_choice is paper
+                message is 'You win, scissors beats paper!
+            elif u_choice is paper and c_choice is rock
+                message is 'You win, paper beats rock!
+            else print(f'You lose, c_choice beats u_choice!)
+        state the welcome message showing instructions
+        gather the input
+        display the winner using display_winner
+    Output
+        display the winner.
+Algorithm:
+     display_winner(u_choice, c_choice) function
+        if u_choice is same as c_choice then
+            message is 'It's a Tie!'
+        elif u_choice is rock and c_choice is scissors
+            message is 'You win, rock beats scissors!
+        elif u_choice is scissors and c_choice is paper
+            message is 'You win, scissors beats paper!
+        elif u_choice is paper and c_choice is rock
+            message is 'You win, paper beats rock!
+        else
+            message is "Sorry, you lose!"
+     gather_input
+        state welcome message
+        state instructions
+        state the options
+        gather input and define u_choice case-insensitive
+        return u_choice
+    main
+        display welcome message
+        display option selection
+        gather input case-insensitive, define u_choice
+        random generate number 1 to 3, define c_choice
+        run display_winner(u_choice, c_choice)
+    end main
+'''
+#   import random library for randint function use
+import random
+#   constant list
+ROCK, PAPER, SCISSORS = 1, 2, 3
+CHOICES = {1: 'rock', 2: 'paper', 3: 'scissors'}
+
+def welcome():
+    print(f'Welcome to Rock, Paper, Scissors game.\n'
+          f'Which would you like to choose? \033[1m(Rock, Paper, Scissors)\033[0m')
+
+
+#   gathers input from users and returns 1, 2, or 3 based on input
+def gather_input():
+    """ gathers input from user and defines u_choice """
+    u_choice = input('Selection: ')
+    if u_choice.lower() == 'rock':
+        return ROCK
+    if u_choice.lower() == 'paper':
+        return PAPER
+    elif u_choice.lower() == 'scissors':
+        return SCISSORS
+    else:
+        return print('Error:')
+
+
+#   defines winning combination for if statement, uses choices to determine winner
+def display_winner(u_choice, c_choice):
+    """ displays winner in message based in u_choice and c_choice """
+    WINNING_COMBINATIONS = [(ROCK, SCISSORS), (SCISSORS, PAPER), (PAPER, ROCK)]
+    if u_choice == c_choice:
+        message = f"It's a Tie! The computer chose {CHOICES[c_choice]}."
+    elif (u_choice, c_choice) in WINNING_COMBINATIONS:
+        message = f'You \033[92mwin\033[0m, {CHOICES[u_choice]} beats {CHOICES[c_choice]}!'
+    else:
+        message = f"Sorry, you \033[91mlose\033[0m!\nYou chose {CHOICES[u_choice]}"\
+                  f" and the computer chose {CHOICES[c_choice]}."
+    return message
+
+
+#   runs the main body of the code
+def main():
+    """ prints welcome statement, instructions, and runs code """
+    welcome()
+    u_choice = gather_input()
+    c_choice = random.randint(1, 3)
+    if u_choice in CHOICES:
+        message  = display_winner(u_choice, c_choice)
+        print(message)
+    else:
+        print('Please select an option from the selection.')
+    return
+
+
+#   call main when this file is run
+if __name__ == '__main__':
+    main()
+
+#   With this problem, I experimented more with lists and variables to try and help me
+#   reduce the number of code. Originally, the display_winner function was very long, but
+#   I was able to break it down and reduce it using variables and lists.
