@@ -145,3 +145,7 @@ def main():
 #   call main when this file is run
 if __name__ == '__main__':
     main()
+
+#   With this problem, I experimented more with lists and variables to try and help me
+#   reduce the number of code. Originally, the display_winner function was very long, but
+#   I was able to break it down and reduce it using variables and lists.
