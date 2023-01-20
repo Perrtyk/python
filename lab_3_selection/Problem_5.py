@@ -98,11 +98,7 @@ def gather_input():
 #   defines winning combination for if statement, uses choices to determine winner
 def display_winner(u_choice, c_choice):
     """ displays winner in message based in u_choice and c_choice """
-    WINNING_COMBINATIONS = [
-        (ROCK, SCISSORS),
-        (SCISSORS, PAPER),
-        (PAPER, ROCK)
-    ]
+    WINNING_COMBINATIONS = [(ROCK, SCISSORS), (SCISSORS, PAPER), (PAPER, ROCK)]
     if u_choice == c_choice:
         message = f"It's a Tie! The computer chose {CHOICES[c_choice]}."
     elif (u_choice, c_choice) in WINNING_COMBINATIONS:
