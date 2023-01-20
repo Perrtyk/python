@@ -1,3 +1,6 @@
+# Patryk Kostek
+# Lab 3 Problem 3
+#
 '''
     Design and implement a program that can be used by 2nd grade students to practice addition of up
     to 3 digit numbers.  The program should generate 2 random integers between 10 and 999 and display
@@ -9,12 +12,7 @@
     as the user's answer.  checkResult should check the user's answer and display an appropriate
     message.  main should generate the random numbers, display the problem to the user and get
     the user's answer before calling checkResult.
-'''
-# Patryk Kostek
-# Lab 3 Problem 3
-#
-#
-'''
+
 Input
   user_ans
 Processing
@@ -55,9 +53,8 @@ Algorithm
         assign message incorrect statement
         return message for later use
   end check_result
-    
-  
 '''
+#
 import random
 
 

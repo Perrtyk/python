@@ -44,6 +44,7 @@ job for at least 1 year.  Your solution should have at least a main function.
 #    print(message)
 
 
+#   gathers how much is the user's salary and their employment length
 def user_input():
     """ gather user's input, return in salary, employ_length"""
     salary = float(input('What is your salary? (Ex: 40k = 40000): '))
@@ -51,6 +52,7 @@ def user_input():
     return salary, employ_length
 
 
+#   processes the input to see if the user qualifies for the loan
 def process(min_income, min_length):
     """ runs the process based on 'min income' income and at least 'length' years """
     salary, employ_length = user_input()
@@ -61,15 +63,18 @@ def process(min_income, min_length):
     return print(message)
 
 
+#   prints the welcome message and runs the process which has user_input embedded
 def main():
     print('Please provide us with the following information to see '
           'if you approve for our loan. ')
     process(40000, 1)
 
+
 if __name__ == '__main__':
     main()
 
-
+#   With this problem I found I was not very familiar with operators such as >=. I began
+#   by researching examples from the book and was able to build my if statement.
 
 
 
