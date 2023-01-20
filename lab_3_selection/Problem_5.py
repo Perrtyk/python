@@ -82,6 +82,11 @@ import random
 ROCK, PAPER, SCISSORS = 1, 2, 3
 CHOICES = {1: 'rock', 2: 'paper', 3: 'scissors'}
 
+def welcome():
+    print(f'Welcome to Rock, Paper, Scissors game.\n'
+          f'Which would you like to choose? \033[1m(Rock, Paper, Scissors)\033[0m')
+
+
 #   gathers input from users and returns 1, 2, or 3 based on input
 def gather_input():
     """ gathers input from user and defines u_choice """
@@ -95,6 +100,7 @@ def gather_input():
     else:
         return print('Error:')
 
+
 #   generates a number and returns it based on two parameters
 def rand_gen(min_val, max_val):
     """ randomly generate numbers from min_val to max_val """
@@ -104,22 +110,28 @@ def rand_gen(min_val, max_val):
     return x
 
 
+#   defines winning combination for if statement, uses choices to determine winner
 def display_winner(u_choice, c_choice):
+    """ displays winner in message based in u_choice and c_choice """
+    WINNING_COMBINATIONS = [
+        (ROCK, SCISSORS),
+        (SCISSORS, PAPER),
+        (PAPER, ROCK)
+    ]
     if u_choice == c_choice:
-        message = "It's a Tie!"
-    elif u_choice is ROCK and c_choice is SCISSORS:
-        message = 'You win, rock beats scissors!'
-    elif u_choice is SCISSORS and c_choice is PAPER:
-        message = 'You win, scissors beats paper!'
-    elif u_choice is PAPER and c_choice is ROCK:
-        message = 'You win, paper beats rock!'
+        message = f"It's a Tie! The computer chose {CHOICES[c_choice]}"
+    elif (u_choice, c_choice) in WINNING_COMBINATIONS:
+        message = f'You \033[92mwin\033[0m, {CHOICES[u_choice]} beats {CHOICES[c_choice]}!'
     else:
-        message = f"Sorry, you lose!\nYou chose {CHOICES[u_choice]}"\
+        message = f"Sorry, you \033[91mlose\033[0m!\nYou chose {CHOICES[u_choice]}"\
                   f" and the computer chose {CHOICES[c_choice]}."
     return message
 
 
+#   runs the main body of the code
 def main():
+    """ prints welcome statement, instructions, and runs code """
+    welcome()
     u_choice = gather_input()
     c_choice = rand_gen(1, 3)
     if u_choice in CHOICES:
@@ -127,7 +139,9 @@ def main():
         print(message)
     else:
         print('Please select an option from the selection.')
-
     return
 
-main()
+
+#   call main when this file is run
+if __name__ == '__main__':
+    main()
