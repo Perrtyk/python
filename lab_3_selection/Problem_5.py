@@ -42,26 +42,92 @@ IPO Chart:
 
 
 Algorithm:
-    gather_input
-        gather input, define u_choice
-    end gather_input
 
-    display_color(color1, color2)
-            if color1 is red and color2 is yellow
-                then color3 is orange
-            elsif color1 is red and color2 is blue
-                then color3 is purple
-            elsif color1 is yellow and color2 is blue
-                then color3 is green
-            else
-                state error handle code
-     end display_color
+     display_winner(u_choice, c_choice) function
+        if u_choice is same as c_choice then
+            message is 'It's a Tie!'
+        elif u_choice is rock and c_choice is scissors
+            message is 'You win, rock beats scissors!
+        elif u_choice is scissors and c_choice is paper
+            message is 'You win, scissors beats paper!
+        elif u_choice is paper and c_choice is rock
+            message is 'You win, paper beats rock!
+        else
+            message is "Sorry, you lose!"
+
+     gather_input
+        state welcome message
+        state instructions
+        state the options
+        gather input and define u_choice case-insensitive
+        return u_choice
+
+     rand_gen
+        1, 2, 3 = ROCK, PAPER, SCISSORS
+        randomly generate number from 1 through 3 assigned to c_choice
+        return c_choice
+
 
     main
         display welcome message
         display option selection
-        gather input, define u_choice
+        gather input case-insensitive, define u_choice
         run rand_gen, define c_choice
         run display_winner(u_choice, c_choice)
     end main
 '''
+#   import random library for randint function use
+import random
+#   constant list
+ROCK, PAPER, SCISSORS = 1, 2, 3
+CHOICES = {1: 'rock', 2: 'paper', 3: 'scissors'}
+
+#   gathers input from users and returns 1, 2, or 3 based on input
+def gather_input():
+    """ gathers input from user and defines u_choice """
+    u_choice = input('Selection: ')
+    if u_choice.lower() == 'rock':
+        return ROCK
+    if u_choice.lower() == 'paper':
+        return PAPER
+    elif u_choice.lower() == 'scissors':
+        return SCISSORS
+    else:
+        return print('Error:')
+
+#   generates a number and returns it based on two parameters
+def rand_gen(min_val, max_val):
+    """ randomly generate numbers from min_val to max_val """
+#   randomly generates a number and assigns it to the computer's choice
+    x = random.randint(min_val, max_val)
+#   returns the random number as a variable for later use
+    return x
+
+
+def display_winner(u_choice, c_choice):
+    if u_choice == c_choice:
+        message = "It's a Tie!"
+    elif u_choice is ROCK and c_choice is SCISSORS:
+        message = 'You win, rock beats scissors!'
+    elif u_choice is SCISSORS and c_choice is PAPER:
+        message = 'You win, scissors beats paper!'
+    elif u_choice is PAPER and c_choice is ROCK:
+        message = 'You win, paper beats rock!'
+    else:
+        message = f"Sorry, you lose!\nYou chose {CHOICES[u_choice]}"\
+                  f" and the computer chose {CHOICES[c_choice]}."
+    return message
+
+
+def main():
+    u_choice = gather_input()
+    c_choice = rand_gen(1, 3)
+    if u_choice in CHOICES:
+        message  = display_winner(u_choice, c_choice)
+        print(message)
+    else:
+        print('Please select an option from the selection.')
+
+    return
+
+main()
