@@ -62,17 +62,11 @@ Algorithm:
         gather input and define u_choice case-insensitive
         return u_choice
 
-     rand_gen
-        1, 2, 3 = ROCK, PAPER, SCISSORS
-        randomly generate number from 1 through 3 assigned to c_choice
-        return c_choice
-
-
     main
         display welcome message
         display option selection
         gather input case-insensitive, define u_choice
-        run rand_gen, define c_choice
+        random generate number 1 to 3, define c_choice
         run display_winner(u_choice, c_choice)
     end main
 '''
@@ -101,15 +95,6 @@ def gather_input():
         return print('Error:')
 
 
-#   generates a number and returns it based on two parameters
-def rand_gen(min_val, max_val):
-    """ randomly generate numbers from min_val to max_val """
-#   randomly generates a number and assigns it to the computer's choice
-    x = random.randint(min_val, max_val)
-#   returns the random number as a variable for later use
-    return x
-
-
 #   defines winning combination for if statement, uses choices to determine winner
 def display_winner(u_choice, c_choice):
     """ displays winner in message based in u_choice and c_choice """
@@ -119,7 +104,7 @@ def display_winner(u_choice, c_choice):
         (PAPER, ROCK)
     ]
     if u_choice == c_choice:
-        message = f"It's a Tie! The computer chose {CHOICES[c_choice]}"
+        message = f"It's a Tie! The computer chose {CHOICES[c_choice]}."
     elif (u_choice, c_choice) in WINNING_COMBINATIONS:
         message = f'You \033[92mwin\033[0m, {CHOICES[u_choice]} beats {CHOICES[c_choice]}!'
     else:
@@ -133,7 +118,7 @@ def main():
     """ prints welcome statement, instructions, and runs code """
     welcome()
     u_choice = gather_input()
-    c_choice = rand_gen(1, 3)
+    c_choice = random.randint(1, 3)
     if u_choice in CHOICES:
         message  = display_winner(u_choice, c_choice)
         print(message)
