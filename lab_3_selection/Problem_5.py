@@ -87,7 +87,7 @@ def gather_input():
     u_choice = input('Selection: ')
     if u_choice.lower() == 'rock':
         return ROCK
-    if u_choice.lower() == 'paper':
+    elif u_choice.lower() == 'paper':
         return PAPER
     elif u_choice.lower() == 'scissors':
         return SCISSORS
