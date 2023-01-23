@@ -96,7 +96,9 @@ def main():
     print(message)
 
 
-main()
+#   call main when this file is run
+if __name__ == '__main__':
+    main()
 
 
 
