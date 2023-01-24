@@ -1,3 +1,6 @@
+# Patryk Kostek
+# Lab 4 Problem 4 and 5
+#
 """
     Problem_4
     Edit your Rock Paper Scissors game from lab 3 to validate the user's input.
@@ -119,6 +122,12 @@ def main5():
         if playagain is False:
             break
 
+
 #   call main when this file is run
 if __name__ == '__main__':
     main5()
+
+#   These problems were very enjoyable, especially the area where we ask the user to play
+#   again. I started to really look into error handling and making sure the program cannot
+#   break. By validation the values and seeing if they are in lists, I was able to error
+#   handle and validate the output. This was before I learned about Try and Except.

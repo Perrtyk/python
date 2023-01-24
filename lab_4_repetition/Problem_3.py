@@ -1,3 +1,6 @@
+# Patryk Kostek
+# Lab 4 Problem 3
+#
 """
 
 Design and implement a program that asks the user to enter a number and determines if
@@ -100,5 +103,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-
+#   Like with the preview problem, I had to really look into prime number equations and
+#   what it means for a number to be prime. I then built the equation and had to test
+#   multiple times prior to it being correct.

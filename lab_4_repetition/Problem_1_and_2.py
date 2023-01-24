@@ -1,3 +1,6 @@
+# Patryk Kostek
+# Lab 4 Problem 1 and 2
+#
 """
     Design and implement a program that asks the user to enter a number and determines if
     the number entered is a perfect number.  A perfect number is a number that is equal to
@@ -84,5 +87,11 @@ def main2():
         if perfect == True:
             print(f'{number} is perfect')
 
+
 if __name__ == '__main__':
     main2()
+
+#   The main issues with this problem that I had is the math surrounding a perfect number.
+#   I did have to do some review in order to understand the order of operations for my code.
+#   It also threw me off and was awesome to learn the initializing variable technique used
+#   in sum. Before calling sum, sum = 0.

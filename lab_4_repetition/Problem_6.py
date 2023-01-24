@@ -1,3 +1,6 @@
+# Patryk Kostek
+# Lab 4 Problem 6
+#
 """
 
     Design and implement a program that allows the user to play a

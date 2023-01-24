@@ -1,0 +1,450 @@
+# Patryk Kostek
+# Lab 4 Problem 1 and 2
+#
+"""
+    Design and implement a program that asks the user to enter a number and determines if
+    the number entered is a perfect number.  A perfect number is a number that is equal to
+    the sum of its factors excluding the number itself.  6 is a perfect number because
+    1 + 2 + 3 = 6. 28 is the next perfect number.  Your solution should include a "fruitful"
+    function called isPerfect as well as a main function.  isPerfect should have one integer
+    parameter, number and should return either True or False. main should get the number
+    from the user, call isPerfect and display an appropriate message on the screen.
+
+Example
+  6 is perfect.  1 + 2 + 3 = 6
+  8 is not perfect. 1 + 2 + 4 = 7
+
+Algorithm - no functions
+  display instructions
+  get number
+  sum = 0
+  # need the perfect logic here
+
+Algorithm - with functions
+  isPerfect(number)
+    sum = 1
+    for each divisor between 2 and up to but not including the number
+        if number % divisor = 0 then
+            sum = sum + divisor
+        end if
+    end for
+    if sum = number then
+        return true
+    else
+        return false
+    end if
+
+
+  main (problem 1)
+    display instructions
+    get number
+    perfect = isPerfect(number)
+    if perfect = true then
+        display number is isPerfect
+    else
+        display number is NOT isPerfect
+    end if
+  end main
+
+
+  main (problem 2)
+    display instructions
+    for each number between 2 and up to but not including 1001
+        perfect = isPerfect(number)
+        if perfect = true then
+            print number
+        end if
+    end for
+  end main
+
+"""
+
+
+def isPerfect(number):
+    '''fruitful function that determines if number is perfect'''
+    sum = 0
+    for divisor in range(1, number):
+        if number % divisor == 0:
+            sum = sum + divisor
+
+    if sum == number:
+        return True
+    else:
+        return False
+
+
+def main1():
+    """Repetition Lab.  Problem 1."""
+    number = int(input("Please enter a number: "))
+    perfect = isPerfect(number)
+    print(f"Is {number} perfect? {perfect}")
+
+
+def main2():
+    """Repetition Lab.  Problem 2."""
+    for number in range(2, 1001):
+        perfect = isPerfect(number)
+        if perfect == True:
+            print(f'{number} is perfect')
+
+
+if __name__ == '__main__':
+    main2()
+
+#   The main issues with this problem that I had is the math surrounding a perfect number.
+#   I did have to do some review in order to understand the order of operations for my code.
+#   It also threw me off and was awesome to learn the initializing variable technique used
+#   in sum. Before calling sum, sum = 0.
+
+--------------------------------------------------------------------------------------------
+
+# Patryk Kostek
+# Lab 4 Problem 3
+#
+"""
+
+Design and implement a program that asks the user to enter a number and determines if
+a number entered by the user is a prime number.  A prime number is a number that is
+divisible only by 1 and itself.  2, 3, 5 and 7 are prime numbers.  4 and 9 are not
+prime numbers.  Your solution should include a "fruitful" function called isPrime
+as well as a main function.  isPrime should have one integer parameter, number
+and should return either True or False.  main should get the number from the user,
+call isPrime and display an appropriate message on the screen.
+
+Algorithm:
+
+is_prime(num)
+    if the num is less than 2 then
+        num is false
+    else
+        for loop to see if number is not prime
+            if number not prime
+                num is False
+            else
+                num is True
+            end if
+        end for
+    end if
+    retun num as True or False
+end is_prime(num)
+
+
+gather_input(message)
+    while true loop
+        try to
+            get the users input, convert to int
+            return the user's input
+        if not do
+            print error message
+        end if
+    end while
+end gather_input
+
+main():
+    welcome message
+    define num with gather_input
+    is num prime using is_prime(num)
+    if num is true then
+        define prime message
+    else
+        define not prime message
+    print message
+
+
+n = gather_input('Please enter your number:  ')
+    n = is_prime(n)
+    if n is True:
+        message = 'Your number is prime!'
+    else:
+        message = 'Your number is not prime!'
+    print(message)
+
+
+
+"""
+
+
+def is_prime(num):
+    ''' takes num and checks if prime. True - prime | False - not prime '''
+    if num < 2:
+        num = False
+    else:
+        for i in range(2, num):
+            if num % i == 0:
+                num = False
+                break
+        else:
+            num = True
+    return num
+
+
+def gather_input(message):
+    ''' gathers user's input displaying message and stores in int(num) with error handling '''
+    while True:
+        try:
+            num = int(input(message))
+            return num
+        except ValueError:
+            print('Error: Invalid value, please try again!')
+
+
+def main():
+    print('Welcome to the prime number calculator...')
+    num = gather_input('Please enter your number: ')
+    num = is_prime(num)
+    if num is True:
+        message = 'Your number is prime!'
+    else:
+        message = 'Your number is not prime!'
+    print(message)
+
+
+#   call main when this file is run
+if __name__ == '__main__':
+    main()
+
+#   Like with the preview problem, I had to really look into prime number equations and
+#   what it means for a number to be prime. I then built the equation and had to test
+#   multiple times prior to it being correct.
+
+--------------------------------------------------------------------------------------------
+
+# Patryk Kostek
+# Lab 4 Problem 4 and 5
+#
+"""
+    Problem_4
+    Edit your Rock Paper Scissors game from lab 3 to validate the user's input.
+    When the user enters something other than Rock, Paper or Scissors he/she/they
+    should be forced reenter a choice.  Your solution should add a "fruitful"
+    function named getUserChoice that takes no parameters and returns a string.
+    In the body of the function, a while loop should be used to force the user to
+    reenter a choice until the input is valid.  main will call the function
+    getUserChoice rather than calling the function input to get the user's input
+    but otherwise should remain unchanged.
+
+Adjustments:
+    make gather_input fruitful with while loop
+Algorithm:
+    Import Rock paper scissors game, change to main(4)
+
+    gather input():
+    while true
+        rest of function
+
+    Problem_5
+    Edit your Rock Paper Scissors game from number 4 above to allow the user to
+    play again.  Your solution should add a "fruitful" function named getPlayAgain
+    that takes no parameters and returns either True or False.  Your solution will
+    include this one new function and main will include a loop.
+
+Adjustments:
+    create get_playagain function and incorporate in main, put loop in main
+Algorithm:
+    get_playagain():
+        while true
+            assign playagain to input from user
+                if playagain.lower() is yes
+                    then return true
+                elif playagain.lower() is no
+                    then return false
+                else
+                    print error message for error handling
+
+"""
+
+#   import random library for randint function use
+import random
+#   constant list
+ROCK, PAPER, SCISSORS = 1, 2, 3
+CHOICES = {1: 'rock', 2: 'paper', 3: 'scissors'}
+
+
+def welcome():
+    print(f'Welcome to Rock, Paper, Scissors game.\n'
+          f'Which would you like to choose? \033[1m(Rock, Paper, Scissors)\033[0m')
+
+
+#   gathers input from users and returns 1, 2, or 3 based on input
+def gather_input():
+    """ gathers input from user and defines u_choice """
+    while True:
+        u_choice = input('Selection: ')
+        if u_choice.lower() == 'rock':
+            return ROCK
+        elif u_choice.lower() == 'paper':
+            return PAPER
+        elif u_choice.lower() == 'scissors':
+            return SCISSORS
+        else:
+            print(f'\033[91mValidation Error\033[0m: Value not rock, paper or scissors.'
+                  f' Please try again.')
+
+
+#   defines winning combination for if statement, uses choices to determine winner
+def display_winner(u_choice, c_choice):
+    """ displays winner in message based in u_choice and c_choice """
+    WINNING_COMBINATIONS = [(ROCK, SCISSORS), (SCISSORS, PAPER), (PAPER, ROCK)]
+    if u_choice == c_choice:
+        message = f"It's a Tie! The computer chose {CHOICES[c_choice]}."
+    elif (u_choice, c_choice) in WINNING_COMBINATIONS:
+        message = f'You \033[92mwin\033[0m, {CHOICES[u_choice]} beats {CHOICES[c_choice]}!'
+    else:
+        message = f"Sorry, you \033[91mlose\033[0m!\nYou chose {CHOICES[u_choice]}"\
+                  f" and the computer chose {CHOICES[c_choice]}."
+    return message
+
+
+def get_playagain():
+    while True:
+        user_input = input('Would you like to play again?: ')
+        if user_input.lower() == 'yes':
+            return True
+        elif user_input.lower() == 'no':
+            return False
+        else:
+            print(f'\033[91mValidation Error\033[0m: Value not yes or no.'
+                  f' Please try again.')
+
+
+#   runs the main body of the code
+def main4():
+    """ prints welcome statement, instructions, and runs code for problem 4 """
+    welcome()
+    u_choice = gather_input()
+    c_choice = random.randint(1, 3)
+    if u_choice in CHOICES:
+        message = display_winner(u_choice, c_choice)
+        print(message)
+    else:
+        print('Please select an option from the selection.')
+    return
+
+
+def main5():
+    """ prints welcome statement, instructions, and runs code for problem 5 """
+    welcome()
+    while True:
+        u_choice = gather_input()
+        c_choice = random.randint(1, 3)
+        message = display_winner(u_choice, c_choice)
+        print(message)
+        playagain = get_playagain()
+        if playagain is False:
+            break
+
+
+#   call main when this file is run
+if __name__ == '__main__':
+    main5()
+
+#   These problems were very enjoyable, especially the area where we ask the user to play
+#   again. I started to really look into error handling and making sure the program cannot
+#   break. By validation the values and seeing if they are in lists, I was able to error
+#   handle and validate the output. This was before I learned about Try and Except.
+
+--------------------------------------------------------------------------------------------
+
+# Patryk Kostek
+# Lab 4 Problem 6
+#
+"""
+
+    Design and implement a program that allows the user to play a
+    "Guess My Number" game with the computer.  When the game starts
+    the program will generate a random number between 1 and 50.  The
+    user should be prompted to guess the number and to enter a number
+    from the keyboard.  The program will display one of the following
+    messages when the user's guess is incorrect:  "Too high" or "Too low".
+    The user should be allowed to continue guessing until he/she/they
+    guess correctly.  The program should keep track of number of
+    guesses that the user makes and should display the number of guesses
+    along with a congratulatory message at the end of the game.  Your solution
+    must include a function getGuess that gets and validates the number entered
+    by the user as well as a main function.  getGuess should take no parameters
+    and return a number between 1 and 50 (it is NOT necessary to verify that the
+    number is an integer).  main will call getGuess as part of the game loop.
+
+Algorithm:
+import random
+welcome():
+    print welcome message with instructions
+    print formatted instructions
+
+get_guess():
+    CHOICES = range(1, 51)
+    While true:
+        try
+            get the user_input between 1 and 50
+            if user_input in CHOICES
+                return user_input
+            else
+                print invalid message
+        except value error
+            print error message
+
+main()
+    print welcome and instructions
+    generate computer input between 1 and 51
+    gather user input with get_guess
+    while user_input =! computer_input
+
+"""
+import random
+
+
+#   displays the welcome message formatted to be in the center of the screen
+def welcome():
+    """ displays the initial welcome message """
+    width = 100
+    string1 = 'Welcome to the guess against the computer game... here is how to play:'
+    string2 = 'Select a number from 1 to 50, the computer will tell you whether you are close!\n'
+    print(f'{string1:^{width}}')
+    print(f'{string2:^{width}}')
+
+
+#   this gathers the input and validates if within 1-50 range, provides error handling
+def get_guess():
+    """ gathers the user's guess with error handling, returns the input from 1-50 """
+    CHOICES = range(1, 51)
+    while True:
+        try:
+            user_input = int(input('What is your guess?: '))
+            if user_input in CHOICES:
+                return user_input
+            else:
+                print(f'\033[91mInvalid Value Error\033[0m: '
+                      f'Please choose a number between 1 and 50.')
+        except ValueError:
+            print(f'\033[91mInvalid Value Error\033[0m: '
+                  f'Please choose a number between 1 and 50.')
+
+
+#   initialize guess and computer_input and run main body of code
+def main():
+    """ runs Lab 4 Problem 6 """
+    welcome()
+    guess = 0
+    computer_input = random.randint(1, 51)
+    while True:
+        user_input = get_guess()
+        guess += 1
+        if user_input != computer_input:
+            if user_input > computer_input:
+                print('You are too high! , try again...')
+            else:
+                print('You are too low! , try again...')
+        else:
+            print('Congratulations! You guessed the correct number!\n'
+                  'It took you ' + str(guess) + ' attempts.')
+            return False
+
+
+#   call main when this file is run
+if __name__ == '__main__':
+    main()
+
+#   This problem was very fun and great for learning while loops. I enjoyed adding the extra
+#   complexity of keeping the attempts score. This was very fun to code. Some issues I
+#   encountered were still with the formatting of text. Formatting text seems to be the
+#   topic always giving me issues.
