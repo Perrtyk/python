@@ -65,7 +65,7 @@ n = gather_input('Please enter your number:  ')
 
 
 def is_prime(num):
-    ''' takes num and checks if prime. True - prime | False - not prime '''
+    """ Takes num and checks if prime. True - prime | False - not prime. """
     if num < 2:
         num = False
     else:
@@ -79,7 +79,7 @@ def is_prime(num):
 
 
 def gather_input(message):
-    ''' gathers user's input displaying message and stores in int(num) with error handling '''
+    """ Gathers user's input displaying message and stores in int(num) with error handling . """
     while True:
         try:
             num = int(input(message))

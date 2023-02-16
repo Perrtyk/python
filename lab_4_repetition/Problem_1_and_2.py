@@ -61,7 +61,7 @@ Algorithm - with functions
 
 
 def isPerfect(number):
-    '''fruitful function that determines if number is perfect'''
+    """ Fruitful function that determines if number is perfect . """
     sum = 0
     for divisor in range(1, number):
         if number % divisor == 0:
@@ -74,14 +74,14 @@ def isPerfect(number):
 
 
 def main1():
-    """Repetition Lab.  Problem 1."""
+    """ Repetition Lab.  Problem 1. """
     number = int(input("Please enter a number: "))
     perfect = isPerfect(number)
     print(f"Is {number} perfect? {perfect}")
 
 
 def main2():
-    """Repetition Lab.  Problem 2."""
+    """ Repetition Lab.  Problem 2. """
     for number in range(2, 1001):
         perfect = isPerfect(number)
         if perfect == True:

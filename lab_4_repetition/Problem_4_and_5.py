@@ -56,7 +56,7 @@ def welcome():
 
 #   gathers input from users and returns 1, 2, or 3 based on input
 def gather_input():
-    """ gathers input from user and defines u_choice """
+    """ Gathers input from user and defines u_choice. """
     while True:
         u_choice = input('Selection: ')
         if u_choice.lower() == 'rock':
@@ -72,7 +72,7 @@ def gather_input():
 
 #   defines winning combination for if statement, uses choices to determine winner
 def display_winner(u_choice, c_choice):
-    """ displays winner in message based in u_choice and c_choice """
+    """ Displays winner in message based in u_choice and c_choice. """
     WINNING_COMBINATIONS = [(ROCK, SCISSORS), (SCISSORS, PAPER), (PAPER, ROCK)]
     if u_choice == c_choice:
         message = f"It's a Tie! The computer chose {CHOICES[c_choice]}."
@@ -98,7 +98,7 @@ def get_playagain():
 
 #   runs the main body of the code
 def main4():
-    """ prints welcome statement, instructions, and runs code for problem 4 """
+    """ Prints welcome statement, instructions, and runs code for problem 4. """
     welcome()
     u_choice = gather_input()
     c_choice = random.randint(1, 3)
@@ -111,7 +111,7 @@ def main4():
 
 
 def main5():
-    """ prints welcome statement, instructions, and runs code for problem 5 """
+    """ Prints welcome statement, instructions, and runs code for problem 5. """
     welcome()
     while True:
         u_choice = gather_input()
