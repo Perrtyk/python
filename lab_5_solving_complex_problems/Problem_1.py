@@ -18,7 +18,7 @@ welcome
     print message
 end welcome
 
-getinfo
+get_info
     While True
         try
             loan_amount defined by user input
@@ -40,9 +40,36 @@ getinfo
     return loan_amount and int_rate rounded
 end get_info
 
-    intRate defined by user input
+get_payment(loan_amount, int_rate):
+    months = [48, 60, 72]
+    payments = empty
+    for month in months:
+        payment = round((int_rate * loan_amount) / (1 - (1 + int_rate) ** (-1 * month)), 2)
+        payments.append(payment)
+    return payments
+end get_payment
+
+print_table(payment_list):
+    final_string = According to your data, these are your payment options.
+    header = Loan Time   Monthly Payment
+    line2 = 4 Year    | {payment_list[0]:.2f}
+    line3 = 5 Year    | {payment_list[1]:.2f}
+    line4 = 6 Year    | {payment_list[2]:.2f}
+    print final table
+end print_table
 
 
+main1():
+    welcome()
+    while True
+        user_loan, user_interest = get_info()
+        monthly_payments = get_payment(user_loan, user_interest)
+        print_table(monthly_payments)
+        play_again = input('Would you like to request another loan?: ')
+        if play_again.lower() != 'yes':
+            break
+    return print('Thank you for shopping!')
+end main1
 '''
 
 
@@ -139,3 +166,6 @@ def main1():
 #   call main when this file is run
 if __name__ == '__main__':
     main1()
+
+# formatting was very fun in this question. I also had the ability to try a new method and
+# creating an empty list and imputting the data into this list using .append
