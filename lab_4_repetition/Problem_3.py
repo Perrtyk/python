@@ -77,7 +77,6 @@ def is_prime(num):
             num = True
     return num
 
-
 def gather_input(message):
     """ Gathers user's input displaying message and stores in int(num) with error handling . """
     while True:
