@@ -19,12 +19,21 @@ import random
 
 
 def bold(text):
+    """ Returns text in bold. """
+    # used for making text bold without clutter
     return f'\033[1m{text}\033[0m'
+
+
+def font_red(text):
+    """ Returns text in red color. """
+    # used for making text red without clutter
+    return f'\033[91m{text}\033[0m:'
 
 
 def welcome():
     """ Prints initial welcome message with instructions. """
-    WIDTH1, WIDTH2 = (71), (79)
+    # set 2 widths for centering the strings
+    WIDTH1, WIDTH2 = (71, 79)
     string_welcome = bold('Welcome to Nim!')
     string_instruct1 = 'Players will take turns removing 1, 2, or 3 sticks from the initial 11.'
     string_instruct2 = 'The player removing the last stick wins!\n'
@@ -34,9 +43,9 @@ def welcome():
 
 
 def game_state(score_value):
-    """ Based on the sticks left, returns the game mark and score """
-    WIDTH1 = (43)
-    start_bold, end_bold = ('\033[1m', '\033[0m')
+    """ Based on the sticks left, returns the game marks and score """
+    # set width for centering the string
+    WIDTH1 = 43
     mark = f' | '
     string_score = bold('Game Status:') + str(f'{mark * score_value:^{WIDTH1}}\n')
     return string_score
@@ -44,20 +53,22 @@ def game_state(score_value):
 
 def game_input(current_score):
     """ Gathers the user's input with error handling built in. """
-    ERROR = '\033[91mERROR\033[0m:'
+    #
+    ERROR01, ERROR02 = font_red('ERROR 01') + ' Choice error, please select a number from 1 to 3.', \
+                       font_red('ERROR 02') + ' Value error, please select a valid number.'
     CHOICES = [1, 2, 3]
     while True:
         try:
             user_input = int(input('How many sticks would you like to remove? (1, 2, or 3?): '))
             print()
             if user_input not in CHOICES:
-                print(ERROR)
+                print(ERROR01)
             elif user_input > current_score:
                 print(f"You cannot remove that many sticks. Try between 1 and {current_score}.")
             else:
                 return user_input
         except ValueError:
-            print('Value' + ERROR)
+            print(ERROR02)
 
 
 def comp_input(current_score):
@@ -105,31 +116,14 @@ def main3():
 
     # loop
     while True:
-            user_choice = game_input(score)
-            new_score = (score - user_choice)
-            computer_choice = comp_input(new_score)
-            score, winner = game_process(user_choice, computer_choice, score)
-            if score == 0:
-                break
+        user_choice = game_input(score)
+        new_score = (score - user_choice)
+        computer_choice = comp_input(new_score)
+        score, winner = game_process(user_choice, computer_choice, score)
+        if score == 0:
+            break
     print(f'The winner is {winner}')
+
 
 if __name__ == '__main__':
     main3()
-
-"""
-
-    while True:
-        user_input = get_guess()
-        guess += 1
-        if user_input != computer_input:
-            if user_input > computer_input:
-                print('You are too high! , try again...')
-            else:
-                print('You are too low! , try again...')
-        else:
-            print('Congratulations! You guessed the correct number!\n'
-                  'It took you ' + str(guess) + ' attempts.')
-            return False
-
-"""
-
