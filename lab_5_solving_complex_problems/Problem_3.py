@@ -18,10 +18,14 @@ import time
 import random
 
 
+def bold(text):
+    return f'\033[1m{text}\033[0m'
+
+
 def welcome():
+    """ Prints initial welcome message with instructions. """
     WIDTH1, WIDTH2 = (71), (79)
-    start_bold, end_bold = ('\033[1m', '\033[0m')
-    string_welcome = f'{start_bold}Welcome to Nim!{end_bold}'
+    string_welcome = bold('Welcome to Nim!')
     string_instruct1 = 'Players will take turns removing 1, 2, or 3 sticks from the initial 11.'
     string_instruct2 = 'The player removing the last stick wins!\n'
     print(f'{string_welcome:^{WIDTH2}}\n\n'
@@ -30,16 +34,16 @@ def welcome():
 
 
 def game_state(score_value):
-    """ Based on score, returns the game mark and score """
+    """ Based on the sticks left, returns the game mark and score """
     WIDTH1 = (43)
     start_bold, end_bold = ('\033[1m', '\033[0m')
     mark = f' | '
-    string_score = f'{start_bold}Game Status:{end_bold}' \
-                   f'{mark * score_value:^{WIDTH1}}\n'
+    string_score = bold('Game Status:') + str(f'{mark * score_value:^{WIDTH1}}\n')
     return string_score
 
 
-def game_input():
+def game_input(current_score):
+    """ Gathers the user's input with error handling built in. """
     ERROR = '\033[91mERROR\033[0m:'
     CHOICES = [1, 2, 3]
     while True:
@@ -48,68 +52,65 @@ def game_input():
             print()
             if user_input not in CHOICES:
                 print(ERROR)
+            elif user_input > current_score:
+                print(f"You cannot remove that many sticks. Try between 1 and {current_score}.")
             else:
-                break
+                return user_input
         except ValueError:
             print('Value' + ERROR)
-    return user_input
+
+
+def comp_input(current_score):
+    """ Determines the computers choice depending on sticks left. """
+    if current_score == 1:
+        computer_choice = 1
+    elif current_score == 0:
+        computer_choice = 0
+    elif current_score > 3:
+        computer_choice = random.randint(1, 3)
+    else:
+        computer_choice = random.randint(1, current_score)
+    return computer_choice
 
 
 def game_process(user_choice, comp_choice, current_score):
-
+    """Main game process computing the new score and winner."""
     new_score = (current_score - user_choice)
+    winner = ''
+
+    # Check if user wins
     if new_score == 0:
         winner = 'user'
-        print(f'Your choice is \033[92m{user_choice}\033[0m.')
-        return new_score, winner
-    else:
-        print(f'Your choice is \033[92m{user_choice}\033[0m.')
-        time.sleep(0.5)
-        print(game_state(new_score))
-        time.sleep(0.5)
+    print(f'Your choice is \033[92m{user_choice}\033[0m.')
+    time.sleep(0.5)
+    print(game_state(new_score))
+    time.sleep(0.5)
 
+    # Check if computer wins
     new_score -= comp_choice
     if new_score == 0:
         winner = 'computer'
-        print(f'The computers choice is \033[91m{comp_choice}\033[0m.')
-        return new_score, winner
-    else:
-        winner = 'none'
-        print(f'The computers choice is \033[91m{comp_choice}\033[0m.')
-        time.sleep(0.5)
-        print(game_state(new_score))
-        time.sleep(0.5)
+    print(f'The computer\'s choice is \033[91m{comp_choice}\033[0m.')
+    time.sleep(0.5)
+    print(game_state(new_score))
+    time.sleep(0.5)
+
     return new_score, winner
-
-
-
-
 
 
 def main3():
     welcome()
     score = 11
-    winner = ()
     print(game_state(score))
 
     # loop
     while True:
-        try:
-            user_choice = game_input()
+            user_choice = game_input(score)
             new_score = (score - user_choice)
-            if user_choice > score:
-                print(f"You cannot remove that many sticks. Try between 1 and {score}.")
-                continue
-            if new_score > 3:
-                computer_choice = random.randint(1, 3)
-            else:
-                computer_choice = random.randint(1, new_score)
-
+            computer_choice = comp_input(new_score)
             score, winner = game_process(user_choice, computer_choice, score)
             if score == 0:
                 break
-        except ValueError:
-            print('Value error')
     print(f'The winner is {winner}')
 
 if __name__ == '__main__':
