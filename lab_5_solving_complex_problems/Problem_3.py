@@ -27,7 +27,13 @@ def bold(text):
 def font_red(text):
     """ Returns text in red color. """
     # used for making text red without clutter
-    return f'\033[91m{text}\033[0m:'
+    return f'\033[91m{text}\033[0m'
+
+
+def font_green(text):
+    """ Returns text in red color. """
+    # used for making text red without clutter
+    return f'\033[92m{text}\033[0m'
 
 
 def welcome():
@@ -53,18 +59,21 @@ def game_state(score_value):
 
 def game_input(current_score):
     """ Gathers the user's input with error handling built in. """
-    #
-    ERROR01, ERROR02 = font_red('ERROR 01') + ' Choice error, please select a number from 1 to 3.', \
-                       font_red('ERROR 02') + ' Value error, please select a valid number.'
+    # defining of error messages
+    ERROR01, ERROR02 =  bold(font_red('ERROR 01')) + ' Choice error, please select a number from 1 to 3.', \
+                        bold(font_red('ERROR 02')) + ' Value error, please select a valid number.'
+    # defining our choice list the user will be able to choose from
     CHOICES = [1, 2, 3]
+    # while loop gathering the users input with error handling
     while True:
         try:
-            user_input = int(input('How many sticks would you like to remove? (1, 2, or 3?): '))
+            user_input = int(input('How many sticks would you like to remove? '
+                                   + bold('(1, 2, or 3?): ')))
             print()
             if user_input not in CHOICES:
                 print(ERROR01)
             elif user_input > current_score:
-                print(f"You cannot remove that many sticks. Try between 1 and {current_score}.")
+                print(f"You cannot remove that many sticks. Try between 1 and {current_score}.\n")
             else:
                 return user_input
         except ValueError:
@@ -85,28 +94,31 @@ def comp_input(current_score):
 
 
 def game_process(user_choice, comp_choice, current_score):
-    """Main game process computing the new score and winner."""
+    """ Main game process computing the new score and winner. """
     new_score = (current_score - user_choice)
-    winner = ''
-
-    # Check if user wins
     if new_score == 0:
         winner = 'user'
-    print(f'Your choice is \033[92m{user_choice}\033[0m.')
-    time.sleep(0.5)
-    print(game_state(new_score))
-    time.sleep(0.5)
+        print(f'Your choice is ' + font_green(user_choice) + '.')
+        return new_score, winner
+    else:
+        print(f'Your choice is ' + font_green(user_choice) + '.')
+        time.sleep(0.5)
+        print(game_state(new_score))
+        time.sleep(0.5)
 
-    # Check if computer wins
     new_score -= comp_choice
     if new_score == 0:
         winner = 'computer'
-    print(f'The computer\'s choice is \033[91m{comp_choice}\033[0m.')
-    time.sleep(0.5)
-    print(game_state(new_score))
-    time.sleep(0.5)
-
+        print(f'The computer choice is ' + font_red(comp_choice) + '.')
+        return new_score, winner
+    else:
+        winner = ''
+        print(f'The computer choice is ' + font_red(comp_choice) + '.')
+        time.sleep(0.5)
+        print(game_state(new_score))
+        time.sleep(0.5)
     return new_score, winner
+
 
 
 def main3():
