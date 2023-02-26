@@ -127,12 +127,19 @@ def game_process(user_choice, comp_choice, current_score):
 
 def play_again():
     """ Asks the user if they would like to play again. """
-    string1 = 'Would you like to play again? ' + font_green(bold('(yes/no): '))
-    play_choice = input(string1)
-    if play_choice.lower() == 'yes':
-        return True
-    else:
-        return exit()
+    while True:
+        try:
+            string1 = 'Would you like to play again? ' + font_green(bold('(yes/no): '))
+            play_choice = input(string1)
+            if play_choice.lower() == 'yes':
+                return True
+            elif play_choice.lower() == 'no':
+                exit('Thank you for playing!')
+            else:
+                raise ValueError('Invalid response. Please state "yes" or "no".')
+        except ValueError as error:
+            print(error)
+            continue
 
 
 def main3():
