@@ -72,9 +72,10 @@ def gather_input(message):
     while True:
         try:
             choice = int(input(message))
-            if choice == 0:
-                while choice == 0:
-                    choice = int(input('Cannot enter "0". Please enter your number: '))
+            if choice <= 0:
+                while choice <= 0:
+                    choice = int(input('Cannot enter "0" or a negative number.\n'
+                                       'Please enter your number: '))
             return choice
         except ValueError:
             print('Error: Invalid value, please try again!')
