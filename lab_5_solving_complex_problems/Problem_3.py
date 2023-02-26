@@ -1,4 +1,6 @@
 """
+Patryk Kostek
+Lab 5 Problem 3
 
 Design and implement a program that allows the user to play a version of Nim against the
 computer.  Nim is a mathematical strategy game, which dates to 16th century China.  There
@@ -32,7 +34,7 @@ def font_red(text):
 
 def font_green(text):
     """ Returns text in red color. """
-    # used for making text red without clutter
+    # used for making text green without clutter
     return f'\033[92m{text}\033[0m'
 
 
@@ -40,6 +42,7 @@ def welcome():
     """ Prints initial welcome message with instructions. """
     # set 2 widths for centering the strings
     WIDTH1, WIDTH2 = (71, 79)
+    print()
     string_welcome = bold('Welcome to Nim!')
     string_instruct1 = 'Players will take turns removing 1, 2, or 3 sticks from the initial 11.'
     string_instruct2 = 'The player removing the last stick wins!\n'
@@ -54,14 +57,16 @@ def game_state(score_value):
     WIDTH1 = 43
     mark = f' | '
     string_score = bold('Game Status:') + str(f'{mark * score_value:^{WIDTH1}}\n')
+    string_score2 = bold((f'Sticks Remaining: '))
+    print(f'{string_score2}{score_value}')
     return string_score
 
 
 def game_input(current_score):
     """ Gathers the user's input with error handling built in. """
     # defining of error messages
-    ERROR01, ERROR02 =  bold(font_red('ERROR 01')) + ' Choice error, please select a number from 1 to 3.', \
-                        bold(font_red('ERROR 02')) + ' Value error, please select a valid number.'
+    ERROR01, ERROR02 =  bold(font_red('ERROR 01:')) + ' Choice error, please select a number from 1 to 3.', \
+                        bold(font_red('ERROR 02:')) + ' Value error, please select a valid number.'
     # defining our choice list the user will be able to choose from
     CHOICES = [1, 2, 3]
     # while loop gathering the users input with error handling
@@ -98,10 +103,10 @@ def game_process(user_choice, comp_choice, current_score):
     new_score = (current_score - user_choice)
     if new_score == 0:
         winner = 'user'
-        print(f'Your choice is ' + font_green(user_choice) + '.')
+        print(f'Your choice is ' + font_green(user_choice) + '.\n')
         return new_score, winner
     else:
-        print(f'Your choice is ' + font_green(user_choice) + '.')
+        print(f'Your choice is ' + font_green(user_choice) + '.\n')
         time.sleep(0.5)
         print(game_state(new_score))
         time.sleep(0.5)
@@ -109,33 +114,62 @@ def game_process(user_choice, comp_choice, current_score):
     new_score -= comp_choice
     if new_score == 0:
         winner = 'computer'
-        print(f'The computer choice is ' + font_red(comp_choice) + '.')
+        print(f'The computer choice is ' + font_red(comp_choice) + '.\n')
         return new_score, winner
     else:
         winner = ''
-        print(f'The computer choice is ' + font_red(comp_choice) + '.')
+        print(f'The computer choice is ' + font_red(comp_choice) + '.\n')
         time.sleep(0.5)
         print(game_state(new_score))
         time.sleep(0.5)
     return new_score, winner
 
 
+def play_again():
+    """ Asks the user if they would like to play again. """
+    string1 = 'Would you like to play again? ' + font_green(bold('(yes/no): '))
+    play_choice = input(string1)
+    if play_choice.lower() == 'yes':
+        return True
+    else:
+        return exit()
+
 
 def main3():
-    welcome()
-    score = 11
-    print(game_state(score))
-
-    # loop
-    while True:
-        user_choice = game_input(score)
-        new_score = (score - user_choice)
-        computer_choice = comp_input(new_score)
-        score, winner = game_process(user_choice, computer_choice, score)
-        if score == 0:
-            break
-    print(f'The winner is {winner}')
+    """ Main function running the game. """
+    # establishment of True for play_choice so that we could play the game
+    play_choice = True
+    # start of play again loop
+    while play_choice == True:
+        # prints the welcome message
+        welcome()
+        # sets the initial score to 11
+        score = 11
+        # prints the score statement
+        print(game_state(score))
+        # starts the game cycle
+        while True:
+            user_choice = game_input(score)
+            new_score = (score - user_choice)
+            computer_choice = comp_input(new_score)
+            score, winner = game_process(user_choice, computer_choice, score)
+            if score == 0:
+                break
+        if winner == 'user':
+            print('You ' + bold(font_green('won')) + '!\n')
+        else:
+            print('You ' + bold(font_red('lost')) + '!\n')
+        print(f'The winner is the ' + bold(winner) + '!\n')
+        # prompts the user if they want to play again
+        play_choice = play_again()
 
 
 if __name__ == '__main__':
     main3()
+
+'''
+This problem was more difficult than others but very fun to do. The difficult parts were the
+amount of loops and functions within the program and keeping track of variables and parameters
+began to become challenging. Many times, my loops were broken and it took a lot of debugging
+to get this program to behave.
+'''
