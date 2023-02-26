@@ -2,13 +2,14 @@
 # Lab 5 Problem 2
 #
 """
-Design and implement a program that asks the user to enter a number and determines if
-a number entered by the user is a prime number.  A prime number is a number that is
-divisible only by 1 and itself.  2, 3, 5 and 7 are prime numbers.  4 and 9 are not
-prime numbers.  Your solution should include a "fruitful" function called isPrime
-as well as a main function.  isPrime should have one integer parameter, number
-and should return either True or False.  main should get the number from the user,
-call isPrime and display an appropriate message on the screen.
+
+Design and implement a program that asks the user to enter a non-zero positive number and
+determines if a number entered by the user is a prime number.  A prime number is a number
+that is divisible only by 1 and itself.  2, 3, 5 and 7 are prime numbers.  4 and 9 are not
+prime numbers.  The program should validate the input in a reasonable way.  The program
+should ask the user if he/she/they want to check another number after the result has been
+displayed and should repeat the process as long as the user enters yes
+
 Algorithm:
 is_prime(num)
     if the num is less than 2 then
