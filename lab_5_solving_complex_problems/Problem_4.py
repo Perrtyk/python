@@ -38,9 +38,18 @@ def font_green(text):
 
 
 def welcome():
-    string1 = 'Welcome to Pig.\nThe first person to reach 100 points win.' \
-              'You will take turns following these rules:' \
-              '1. You will roll dice'
+    strings = [
+        'Welcome to Pig.\nThe first person to reach 100 points win.\n',
+        'You will take turns following these rules:\n',
+        '1. You will roll 2 dice, you will gain score for all numbers you roll... almost . . .\n',
+        '2. If you roll a 1 on one of the dice, you lose your score gained and the turn . . .\n',
+        '3. If you roll a double 1 on the dice, you will be starting from zero . . .\n',
+        '4. If you roll successfully, you can choose to roll again or pass! . . .\n',
+        'Have fun!'
+    ]
+    for string in strings:
+        print(string)
+        time.sleep(1)
 
 
 def draw_dice(roll_1, roll_2):
@@ -116,7 +125,6 @@ def reroll_computer():
         return False
 
 
-
 def user_play(user_score):
     input('Press "ENTER" to roll the dice!\n')
     while True:
@@ -170,13 +178,13 @@ def computer_play(computer_score):
         if roll_1 == 1 and roll_2 == 1:
             computer_score = 0
             print(bold(f'(Computer Score: {font_red(computer_score)}) ') +
-                  'Computers turn ends. It rolled double 1, its score is reset to zero.')
+                  'Computers turn ends. It rolled double 1, its score is reset to zero.\n')
             time.sleep(1)
             return computer_score
         if roll_1 == 1 or roll_2 == 1:
             computer_score -= roll_1 + roll_2
             print(bold(f'(Computer Score: {font_red(computer_score)}) ') +
-                  'Computers turn ends. It rolled a 1, subtracting the score it earned.')
+                  'Computers turn ends. It rolled a 1, subtracting the score it earned.\n')
             time.sleep(1)
             return computer_score
         elif computer_score >= 100:
@@ -184,7 +192,7 @@ def computer_play(computer_score):
         else:
             time.sleep(1)
             print(bold(f'(Computer Score: {font_red(computer_score)}) ') + 'Computer rolled a ' + bold(roll_1) + ' and ' + bold(roll_2) + ''
-                  + '. It may continue to roll.')
+                  + '. It may continue to roll.\n')
             reroll = reroll_computer()
             if not reroll:
                 print("The computer has chosen to pass the turn to the you.\n")
@@ -214,7 +222,7 @@ def display_results(user_score, computer_score):
 
 
 def main():
-    #welcome
+    welcome()
     u_score, c_score = 0, 0
     # loop until player reaches or passes the winning score of 100
     while u_score <= WINNING_SCORE and c_score <= WINNING_SCORE:
