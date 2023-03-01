@@ -101,6 +101,10 @@ def scan_ip_range(start_ip, end_ip, progress_var):
             break
 
         ip_address = str(ipaddress.ip_address(i))
+        available = check_ip_address(ip_address)
+        if available == 'No':
+            print_debug(f'[{currentTime}] IP Scan ({ip_address}): Skipping, host is not available.\n')
+            continue
         mac_address = get_mac_address(ip_address)
         ping_time = 'N/A'
         try:
