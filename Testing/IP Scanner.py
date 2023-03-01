@@ -142,11 +142,14 @@ def scan_ip_range(start_ip, end_ip, progress_var):
             try:
                 print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running PING process . . .\n')
                 ping_response = subprocess.Popen(['ping', '-n', '1', '-w', '500', ip_address], stdout=subprocess.PIPE).communicate()[0]
-                if b'Reply from' in ping_response:
-                    print_debug(f'[{currentTime}] IP Scan ({ip_address}): Received ping response of {ping_response}.\n')
-                    ping_time = str(ping_response).split("time=")[1].split("ms")[0] + ' ms'
-                else:
-                    ping_time = 'Request timed out.'
+                try:
+                    if b'Reply from' in ping_response:
+                        print_debug(f'[{currentTime}] IP Scan ({ip_address}): Received ping response of {ping_response}.\n')
+                        ping_time = str(ping_response).split("time=")[1].split("ms")[0] + ' ms'
+                    else:
+                        ping_time = 'Request timed out.'
+                except:
+                    pass
             except OSError:
                 pass
 
