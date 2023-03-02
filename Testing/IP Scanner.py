@@ -141,7 +141,7 @@ def scan_ip_range(start_ip, end_ip, progress_var):
             # Try to ping the IP address
             try:
                 print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running PING process . . .\n')
-                ping_response = subprocess.Popen(['ping', '-n', '1', '-w', '500', ip_address], stdout=subprocess.PIPE).communicate()[0]
+                ping_response = subprocess.Popen(['ping', '-n', '4', '-w', '500', ip_address], stdout=subprocess.PIPE).communicate()[0]
                 try:
                     if b'Reply from' in ping_response:
                         print_debug(f'[{currentTime}] IP Scan ({ip_address}): Received ping response of {ping_response}.\n')
