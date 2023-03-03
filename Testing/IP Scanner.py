@@ -8,15 +8,17 @@ from scapy.layers.l2 import ARP, Ether
 from scapy.sendrecv import srp
 from datetime import datetime
 
-# Sets initial time and date
+
+# Global Variables
 currentDateAndTime = datetime.now()
 currentTime = currentDateAndTime.strftime("%d/%m/%Y %H:%M:%S")
+scan_in_progress = False
 
-# Prints debug command in both terminals
+
+# Prints debug command in both terminals. Updates the currentTime variable to reflect most recent time.
 def print_debug(msg):
     global currentTime
-    currentDateAndTime = datetime.now()
-    currentTime = currentDateAndTime.strftime("%d/%m/%Y %H:%M:%S")
+    currentTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     print(msg)
     term.insert(tk.END, msg + '\n')
     term.see(tk.END)
@@ -60,30 +62,33 @@ def get_mac_address(ip_address):
 
 # Define the function to check whether an IP address is available
 def check_ip_address(ip_address):
-    print_debug(f'[{currentTime}] Connect ({ip_address}): Running connection test . . .\n')
-    response = subprocess.Popen(['ping', '-n', '1', '-w', '500', str(ip_address)],
+    message_connect = f'[{currentTime}] Connect ({ip_address}):'
+    print_debug(f'{message_connect} Running connection test . . .\n')
+    response = subprocess.Popen(['ping', '-n', '1', '-w', '300', str(ip_address)],
                                 stdout=subprocess.PIPE).communicate()[0]
     available, not_available = 'Yes', 'No'
     if b'Reply from' in response:
         if stop_scan:
             result = f'{not_available}'
-            print_debug(f'[{currentTime}] Connect ({ip_address}): Complete, endpoint available: {result}.\n')
+            print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
             return result
         else:
             result = f'{available}'
-            print_debug(f'[{currentTime}] Connect ({ip_address}): Complete, endpoint available: {result}.\n')
+            print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
             return result
     else:
         result = f'{not_available}'
-        print_debug(f'[{currentTime}] Connect: Complete, endpoint available: {result}.\n')
+        print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
         return result
 
 
 # Define the function to scan a range of IP addresses and display the results in a table
 def scan_ip_range(start_ip, end_ip, progress_var):
     # Initialize stop scan variable
-    global stop_scan
+    global stop_scan, scan_in_progress
     stop_scan = False
+    scan_in_progress = True
+    disable_scan_button()
     # Clear the existing rows in the treeview
     print_debug(f'[{currentTime}] IP Scan: scan_ip_range . . .\n')
     for row in results_treeview.get_children():
@@ -149,7 +154,8 @@ def scan_ip_range(start_ip, end_ip, progress_var):
             # Try to ping the IP address
             try:
                 print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running PING process . . .\n')
-                ping_response = subprocess.Popen(['ping', '-n', '4', '-w', '500', ip_address], stdout=subprocess.PIPE).communicate()[0]
+                ping_response = subprocess.Popen(['ping', '-n', '4', '-w', '500', ip_address],
+                                                 stdout=subprocess.PIPE).communicate()[0]
                 try:
                     if b'Reply from' in ping_response:
                         print_debug(f'[{currentTime}] IP Scan ({ip_address}): Received ping response of {ping_response}.\n')
@@ -163,13 +169,15 @@ def scan_ip_range(start_ip, end_ip, progress_var):
             progress_var.set(progress_var.get() + 1)
 
         print_debug(f"[{currentTime}] Processed IP Address: {ip_address} , Processed Ping: {ping_time} , Processed Hostname: {hostname}\n"
-              f"[{currentTime}] Processed MAC: {mac_address} , Processed Connectivity: {available}\n")
+                    f"[{currentTime}] Processed MAC: {mac_address} , Processed Connectivity: {available}\n")
 
         # Add a row to the treeview with the IP address, hostname, MAC address, ping time, and availability
         results_treeview.insert('', 'end', values=(ip_address, hostname, mac_address, ping_time, available))
 
     else:
         print_debug(f'[{currentTime}] Scan completed.')
+        scan_in_progress = False
+        enable_scan_button()
 
 
 # Define the function to stop the scan
@@ -177,6 +185,16 @@ def stop_scan_func():
     global stop_scan
     stop_scan = True
 
+
+def disable_scan_button():
+    global scan_in_progress, scan_button
+    scan_in_progress = True
+    scan_button.config(state="disabled", text="Scanning...")
+
+def enable_scan_button():
+    global scan_in_progress, scan_button
+    scan_in_progress = False
+    scan_button.config(state="normal", text="Scan")
 
 # Create the main window
 root = tk.Tk()
@@ -201,8 +219,7 @@ end_ip_entry.insert(0, '192.168.1.255')
 end_ip_entry.pack(side='left', fill='x', expand=True)
 
 # Create the Scan button
-scan_button = ttk.Button(root, text='Scan', command=lambda: threading.Thread(target=scan_ip_range, args=(
-start_ip_entry.get(), end_ip_entry.get(), progress_var)).start())
+scan_button = ttk.Button(root, text='Scan', command=lambda: threading.Thread(target=scan_ip_range, args=(start_ip_entry.get(), end_ip_entry.get(), progress_var)).start())
 scan_button.pack(pady=(10, 0))
 
 # Create the Stop Scan button
