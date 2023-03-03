@@ -13,6 +13,8 @@ from datetime import datetime
 currentDateAndTime = datetime.now()
 currentTime = currentDateAndTime.strftime("%d/%m/%Y %H:%M:%S")
 scan_in_progress = False
+stop_scan = False
+socket.setdefaulttimeout(0.350)
 
 
 # Prints debug command in both terminals. Updates the currentTime variable to reflect most recent time.
@@ -24,7 +26,46 @@ def print_debug(msg):
     term.see(tk.END)
 
 
+def get_ping(ip_address):
+    if stop_scan:
+        ping_time = 'N/A'
+        return ping_time
+    print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running PING process . . .\n')
+    ping_response = subprocess.Popen(['ping', '-n', '3', '-w', '350', ip_address],
+                                         stdout=subprocess.PIPE).communicate()[0]
+    if b'Reply from' in ping_response:
+        ping_time = str(ping_response).split("Average =")[1].split("ms")[0] + ' ms'
+        print_debug(f'[{currentTime}] IP Scan ({ip_address}): Received ping response of{ping_time}.\n')
+        return ping_time
+    else:
+        ping_time = 'Request timed out.'
+        return ping_time
+
+
+# Define the function to check whether an IP address is available
+def check_ip_address(ip_address):
+    message_connect = f'[{currentTime}] Connect ({ip_address}):'
+    print_debug(f'{message_connect} Running connection test . . .\n')
+    response = subprocess.Popen(['ping', '-n', '1', '-w', '350', str(ip_address)],
+                                stdout=subprocess.PIPE).communicate()[0]
+    available, not_available = 'Yes', 'No'
+    if b'Reply from' in response:
+        if stop_scan:
+            result = f'{not_available}'
+            print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
+            return result
+        else:
+            result = f'{available}'
+            print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
+            return result
+    else:
+        result = f'{not_available}'
+        print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
+        return result
+
+
 def get_mac_address(ip_address):
+    print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running MAC address process . . .\n')
     message_mac = f'[{currentTime}]     MAC ({ip_address}):'
     if stop_scan:
         mac_address = 'N/A'
@@ -60,27 +101,18 @@ def get_mac_address(ip_address):
         return mac_address
 
 
-# Define the function to check whether an IP address is available
-def check_ip_address(ip_address):
-    message_connect = f'[{currentTime}] Connect ({ip_address}):'
-    print_debug(f'{message_connect} Running connection test . . .\n')
-    response = subprocess.Popen(['ping', '-n', '1', '-w', '300', str(ip_address)],
-                                stdout=subprocess.PIPE).communicate()[0]
-    available, not_available = 'Yes', 'No'
-    if b'Reply from' in response:
-        if stop_scan:
-            result = f'{not_available}'
-            print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
-            return result
-        else:
-            result = f'{available}'
-            print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
-            return result
-    else:
-        result = f'{not_available}'
-        print_debug(f'{message_connect} Complete, endpoint available: {result}.\n')
-        return result
-
+def get_host_name(ip_address):
+    print_debug(f'[{currentTime}] IP Scan ({ip_address}): Gathering hostname . . .\n')
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(0.2)
+            s.connect((ip_address, 80))
+            hostname = socket.gethostbyaddr(ip_address)[0]
+        print_debug(f'[{currentTime}] IP Scan ({ip_address}): Hostname is {hostname}\n')
+    except (socket.gaierror, socket.timeout, ConnectionRefusedError):
+        hostname = '.N/A'
+        print_debug(f'[{currentTime}] IP Scan ({ip_address}): Hostname lookup failed\n')
+    return hostname
 
 # Define the function to scan a range of IP addresses and display the results in a table
 def scan_ip_range(start_ip, end_ip, progress_var):
@@ -116,57 +148,15 @@ def scan_ip_range(start_ip, end_ip, progress_var):
         if available == 'No':
             print_debug(f'[{currentTime}] IP Scan ({ip_address}): Skipping, host is not available.\n')
             progress_var.set(progress_var.get() + 1)
-
             continue
+
         mac_address = get_mac_address(ip_address)
-        ping_time = 'N/A'
-        try:
-            print_debug(f'[{currentTime}] IP Scan ({ip_address}): Gathering hostname . . .\n')
-            hostname = socket.gethostbyaddr(ip_address)[0]
 
-        except OSError:
-            print_debug(f'[{currentTime}] IP Scan ({ip_address}): Hostname unavailable  (Operating System Error). . .\n')
-            hostname = 'N/A'
+        ping_time = get_ping(ip_address)
 
-        # Check if the IP address is available
-        print_debug(f'[{currentTime}] IP Scan ({ip_address}): Checking Connectivity . . .\n')
-        available = check_ip_address(ip_address)
+        hostname = get_host_name(ip_address)
 
-        if available:
-            # Try to get the MAC address (this can be slow)
-            try:
-                with (500):
-                    print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running MAC address process . . .\n')
-                    mac_address = get_mac_address(ip_address)
-            except:
-                print_debug(f'[{currentTime}] IP Scan ({ip_address}): MAC process failed, OS Error.\n')
-                pass
-
-            # Try to get the hostname (this can also be slow)
-            try:
-                with (500):
-                    print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running hostname process . . .\n')
-                    hostname = socket.gethostbyaddr(ip_address)[0]
-            except:
-                print_debug(f'[{currentTime}] IP Scan ({ip_address}): Hostname failed, OS Error.\n')
-                pass
-
-            # Try to ping the IP address
-            try:
-                print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running PING process . . .\n')
-                ping_response = subprocess.Popen(['ping', '-n', '4', '-w', '500', ip_address],
-                                                 stdout=subprocess.PIPE).communicate()[0]
-                try:
-                    if b'Reply from' in ping_response:
-                        print_debug(f'[{currentTime}] IP Scan ({ip_address}): Received ping response of {ping_response}.\n')
-                        ping_time = str(ping_response).split("time=")[1].split("ms")[0] + ' ms'
-                    else:
-                        ping_time = 'Request timed out.'
-                except:
-                    pass
-            except OSError:
-                pass
-            progress_var.set(progress_var.get() + 1)
+        progress_var.set(progress_var.get() + 1)
 
         print_debug(f"[{currentTime}] Processed IP Address: {ip_address} , Processed Ping: {ping_time} , Processed Hostname: {hostname}\n"
                     f"[{currentTime}] Processed MAC: {mac_address} , Processed Connectivity: {available}\n")
@@ -182,7 +172,8 @@ def scan_ip_range(start_ip, end_ip, progress_var):
 
 # Define the function to stop the scan
 def stop_scan_func():
-    global stop_scan
+    global stop_scan, scan_button
+    scan_button.config(state="normal", text="Scan")
     stop_scan = True
 
 
@@ -259,3 +250,5 @@ term = scrolledtext.ScrolledText(root, height=12)
 term.pack(side=tk.BOTTOM, fill=tk.X)
 
 root.mainloop()
+
+#get_host_name('192.168.1.1')
