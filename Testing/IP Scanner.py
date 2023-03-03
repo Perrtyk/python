@@ -91,7 +91,11 @@ def scan_ip_range(start_ip, end_ip, progress_var):
     print_debug(f'[{currentTime}] IP Scan: Clearing existing rows.\n')
 
     # Set the maximum value for the progress bar
-    progress_var.set(int(ipaddress.ip_address(end_ip)) - int(ipaddress.ip_address(start_ip)) + 1)
+    progress_var.set(0)
+    max_val = int(ipaddress.ip_address(end_ip)) - int(ipaddress.ip_address(start_ip))
+    if max_val == 0:
+        max_val = 1
+    progress_bar["maximum"] = max_val
 
     # Loop through the IP addresses in the range
 
@@ -101,9 +105,13 @@ def scan_ip_range(start_ip, end_ip, progress_var):
             break
 
         ip_address = str(ipaddress.ip_address(i))
+        percentage = int((i - int(ipaddress.ip_address(start_ip))) * 100 / max_val)
+        percentage_label.config(text=f'{percentage}% | Scanning: {ip_address}')
         available = check_ip_address(ip_address)
         if available == 'No':
             print_debug(f'[{currentTime}] IP Scan ({ip_address}): Skipping, host is not available.\n')
+            progress_var.set(progress_var.get() + 1)
+
             continue
         mac_address = get_mac_address(ip_address)
         ping_time = 'N/A'
@@ -152,15 +160,13 @@ def scan_ip_range(start_ip, end_ip, progress_var):
                     pass
             except OSError:
                 pass
+            progress_var.set(progress_var.get() + 1)
 
         print_debug(f"[{currentTime}] Processed IP Address: {ip_address} , Processed Ping: {ping_time} , Processed Hostname: {hostname}\n"
               f"[{currentTime}] Processed MAC: {mac_address} , Processed Connectivity: {available}\n")
 
         # Add a row to the treeview with the IP address, hostname, MAC address, ping time, and availability
         results_treeview.insert('', 'end', values=(ip_address, hostname, mac_address, ping_time, available))
-
-        # Increment the progress bar
-        progress_var.set(progress_var.get() + 1)
 
     else:
         print_debug(f'[{currentTime}] Scan completed.')
@@ -223,9 +229,13 @@ results_scrollbar.pack(side='right', fill='y')
 results_treeview.pack(fill='both', expand=True)
 
 # Create the progress bar
-progress_var = tk.DoubleVar()
+progress_var = tk.IntVar()
+progress_var.set(0)
 progress_bar = ttk.Progressbar(root, variable=progress_var, maximum=100)
-progress_bar.pack(fill='x')
+progress_bar.pack(fill=tk.X, padx=10, pady=10)
+
+percentage_label = ttk.Label(root, text='0%')
+percentage_label.pack(pady=10)
 
 # create a scrolled text widget
 term = scrolledtext.ScrolledText(root, height=12)
