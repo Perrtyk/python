@@ -1,6 +1,6 @@
+# Patryk Kostek
+# Lab 6 Problem 2
 """
-Patryk Kostek
-Lab 6 Problem 2
 
 Design and implement a program that will allow the user to encode words and phrases using a shift or Ceasar cypher.
 In cryptography, a Caesar cipher, also known as Caesar's cipher, the shift cipher, Caesar's code or Caesar shift,
