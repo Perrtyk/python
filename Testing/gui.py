@@ -62,12 +62,12 @@ class App(customtkinter.CTk):
         self.label_start_scan = customtkinter.CTkLabel(master=self.main_entry_frame, text="Start Scan IP:",
                                                        font=customtkinter.CTkFont(size=14, weight="bold"))
         self.label_start_scan.grid(row=0, column=0, padx=5, pady=5, sticky="e")
-        self.start_entry = customtkinter.CTkEntry(self.main_entry_frame, placeholder_text="CTkEntry")
+        self.start_entry = customtkinter.CTkEntry(self.main_entry_frame, placeholder_text="192.168.0.1")
         self.start_entry.grid(row=0, column=1, padx=(0, 20), pady=(10, 10), sticky="nsew")
         self.label_end_scan = customtkinter.CTkLabel(master=self.main_entry_frame, text="End Scan IP:",
                                                      font=customtkinter.CTkFont(size=14, weight="bold"))
         self.label_end_scan.grid(row=0, column=2, padx=5, pady=5, sticky="e")
-        self.end_entry = customtkinter.CTkEntry(self.main_entry_frame, placeholder_text="CTkEntry")
+        self.end_entry = customtkinter.CTkEntry(self.main_entry_frame, placeholder_text="192.168.0.254")
         self.end_entry.grid(row=0, column=3, padx=(0, 20), pady=(10, 10), sticky="nsew")
 
         # row 1 and 2
@@ -182,6 +182,8 @@ class App(customtkinter.CTk):
         self.exit_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
         # set default values
+        self.start_entry.insert(0, "192.168.0.1") # this will have user's subnet in the end
+        self.end_entry.insert(0, "192.168.0.254") # this will have user's subnet in the end
         self.sidebar_button_2.configure(state="disabled")
         self.sidebar_button_3.configure(state="disabled")
         self.checkbox_1.select()
