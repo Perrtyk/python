@@ -31,9 +31,12 @@ socket.setdefaulttimeout(0.350)
 # Download the icon from the GitHub repository
 url_light = "https://github.com/Perrtyk/python/blob/main/Testing/LAN%20Pigeon/Assets/icon_light.png?raw=true"
 url_dark = "https://github.com/Perrtyk/python/blob/main/Testing/LAN%20Pigeon/Assets/icon_dark.png?raw=true"
+url_bit = "https://github.com/Perrtyk/python/blob/main/Testing/LAN%20Pigeon/Assets/bit_icon.png?raw=true"
 urllib.request.urlretrieve(url_light, "icon_light.png")
 urllib.request.urlretrieve(url_dark, "icon_dark.png")
-
+urllib.request.urlretrieve(url_bit, "bit_icon.png")
+bit_icon = Image.open("bit_icon.png")
+bit_icon.save("bit_icon.ico")
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -42,10 +45,6 @@ class App(customtkinter.CTk):
         self.title("LAN Pigeon.py")
         self.geometry(f"{1200}x{600}")
         self.minsize(900, 600)
-
-        # create an image object from a file
-   #     image_file = "example_image.jpg"
-   #     image = CTkImage(image_file)
 
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
@@ -59,6 +58,7 @@ class App(customtkinter.CTk):
         self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="LAN Pigeon",
                                                  font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
+        self.iconbitmap("bit_icon.ico")
         icon_light = Image.open("icon_light.png")
         icon_dark = Image.open("icon_dark.png")
         self.logo_icon = customtkinter.CTkImage(light_image=icon_light,
