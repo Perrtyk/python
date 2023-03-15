@@ -51,6 +51,26 @@ class App(customtkinter.CTk):
         self.grid_columnconfigure(2, weight=0)
         self.grid_rowconfigure((1, 2), weight=1)
 
+        # Create a menu bar
+        menu_bar = tk.Menu(self, bg="#20232A")
+        menu_bar.configure(bg='blue')
+        self.configure(menu=menu_bar)
+
+        # Create a "File" menu
+        file_menu = tk.Menu(menu_bar, tearoff=0)
+        file_menu.configure(background='light grey')
+        menu_bar.add_cascade(label="File", menu=file_menu)
+        file_menu.add_command(label="Open")
+        file_menu.add_command(label="Save")
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit", command=self.quit)
+
+        # Create a "Help" menu
+        help_menu = tk.Menu(menu_bar, tearoff=0)
+        help_menu.configure(background='light grey')
+        menu_bar.add_cascade(label="Help", menu=help_menu)
+        help_menu.add_command(label="About")
+
         # create sidebar frame with widgets
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=8, sticky="nsew")
