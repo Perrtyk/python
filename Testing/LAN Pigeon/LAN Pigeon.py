@@ -462,8 +462,9 @@ class App(customtkinter.CTk):
             self.results_treeview.insert('', 'end', values=data)
 
         # re-adjust the scrollbar to match new data
-        self.results_treeview.update_idletasks()
-        self.results_scrollbar.config(command=self.results_treeview.yview)
+        self.results_scrollbar.destroy()
+        self.results_scrollbar = ttk.Scrollbar(self.main_entry_frame, orient='vertical', command=self.results_treeview.yview)
+        self.results_scrollbar.grid(column=3, row=2, padx=(20, 0), pady=(20, 0), sticky="nse")
         self.results_treeview.configure(yscrollcommand=self.results_scrollbar.set)
 
     def treeview_light(self):
