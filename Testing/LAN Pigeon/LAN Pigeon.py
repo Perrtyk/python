@@ -3,8 +3,9 @@ import tkinter.messagebox
 import tkinter.ttk as ttk
 import threading
 import ipaddress
-import subprocess
+import platform
 import socket
+import subprocess
 from scapy.layers.l2 import ARP, Ether
 from scapy.sendrecv import srp
 from datetime import datetime
@@ -54,7 +55,7 @@ class App(customtkinter.CTk):
         self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame, text="Start Scan", command=lambda: threading.Thread (target=self.scan_ip_range, args=(self.start_entry.get(), self.end_entry.get(), self.progress_var)).start())
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text="Stop Scan",
-                                                        command=self.stop_scan_botton)
+                                                        command=self.stop_scan_func)
         self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
         self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text="Save Results",
                                                         command=self.save_results)
@@ -143,18 +144,18 @@ class App(customtkinter.CTk):
         self.label_radio_group = customtkinter.CTkLabel(master=self.radiobutton_frame, text="Ping Threshold",
                                                         font=customtkinter.CTkFont(size=14, weight="bold"))
         self.label_radio_group.grid(row=0, column=2, columnspan=1, padx=10, pady=10, sticky="ew")
-        self.radio_button_1 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, text="25ms",
+        self.radio_button_1 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, text="  25ms",
                                                            variable=self.radio_var, value=0)
-        self.radio_button_1.grid(row=1, column=2, pady=10, padx=20, sticky="n")
-        self.radio_button_2 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, text="50ms",
+        self.radio_button_1.grid(row=1, column=2, pady=10, padx=20, sticky="w")
+        self.radio_button_2 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, text="  50ms",
                                                            variable=self.radio_var, value=1)
-        self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="n")
-        self.radio_button_3 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, text="100ms",
+        self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="w")
+        self.radio_button_3 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, text="  100ms",
                                                            variable=self.radio_var, value=2)
-        self.radio_button_3.grid(row=3, column=2, pady=10, padx=20, sticky="n")
-        self.radio_button_4 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, text="250ms",
+        self.radio_button_3.grid(row=3, column=2, pady=10, padx=20, sticky="w")
+        self.radio_button_4 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, text="  250ms",
                                                            variable=self.radio_var, value=3)
-        self.radio_button_4.grid(row=4, column=2, pady=10, padx=20, sticky="n")
+        self.radio_button_4.grid(row=4, column=2, pady=10, padx=20, sticky="w")
 
         # create checkbox and switch frame
         self.checkbox_slider_frame = customtkinter.CTkFrame(master=self)
@@ -175,9 +176,10 @@ class App(customtkinter.CTk):
         self.exit_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
         # set default values
-        self.start_entry.insert(0, "192.168.0.1") # this will have user's subnet in the end
-        self.end_entry.insert(0, "192.168.0.254") # this will have user's subnet in the end
-        self.sidebar_button_2.configure(state="disabled")
+        start, end = '192.168.1.1', '192.168.1.254'
+        self.start_entry.insert(0, f"{start}") # this will have user's subnet in the end
+        self.end_entry.insert(0, f"{end}") # this will have user's subnet in the end
+        self.sidebar_button_2.configure(state="normal")
         self.sidebar_button_3.configure(state="disabled")
         self.checkbox_1.select()
         self.checkbox_2.select()
@@ -291,6 +293,9 @@ class App(customtkinter.CTk):
         stop_scan = False
         scan_in_progress = True
         self.disable_scan_button()
+        self.progressbar_1.stop()
+        self.progressbar_1.set(0)
+        self.progressbar_1.configure(mode="determinate", progress_color="green")
         # Clear the existing rows in the treeview
         self.print_debug(f'[{currentTime}] IP Scan: scan_ip_range . . .\n')
         for row in self.results_treeview.get_children():
@@ -299,10 +304,14 @@ class App(customtkinter.CTk):
 
         # Set the maximum value for the progress bar
         progress_var.set(0)
-        max_val = int(ipaddress.ip_address(end_ip)) - int(ipaddress.ip_address(start_ip))
+        try:
+            max_val = int(ipaddress.ip_address(end_ip)) - int(ipaddress.ip_address(start_ip))
+        except ValueError as e:
+            self.print_debug(f'[{currentTime}] IP Scan: {e}.\n')
+            self.stop_scan_func()
+
         if max_val == 0:
             max_val = 1
-        self.progressbar_1["maximum"] = max_val
 
         # Loop through the IP addresses in the range
 
@@ -313,6 +322,7 @@ class App(customtkinter.CTk):
 
             ip_address = str(ipaddress.ip_address(i))
             percentage = int((i - int(ipaddress.ip_address(start_ip))) * 100 / max_val)
+            self.progressbar_1.set(percentage * .01)
             self.percentage_label.configure(text=f'{percentage}% | Scanning: {ip_address}')
             available = self.check_ip_address(ip_address)
             if available == 'No':
@@ -337,6 +347,9 @@ class App(customtkinter.CTk):
                 self.results_treeview.insert('', 'end', values=(ip_address, hostname, mac_address, ping_time, available))
 
         else:
+            self.progressbar_1.set(0)
+            self.progressbar_1.configure(mode="indeterminnate", progress_color="green")
+            self.progressbar_1.start()
             self.print_debug(f'[{currentTime}] Scan completed.')
             scan_in_progress = False
             self.enable_scan_button()
