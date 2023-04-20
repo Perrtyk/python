@@ -67,6 +67,10 @@ def yellow(text):
 
 
 def welcome():
+    """
+    Prints the initial welcome screen, requires enter pressed to continue.
+    :return:
+    """
     title = list()
     title.append("  __  __                   _        \n")
     title.append(" |  \/  |                 (_)       \n")
@@ -88,6 +92,10 @@ def welcome():
 
 
 def spawn_ball():
+    """
+    Spawns ascii art for the 8 ball.
+    :return:
+    """
     ball = list()
     ball.append('''  .-"""-.  \n''')
     ball.append(''' /   _   \ \n''')
@@ -98,11 +106,16 @@ def spawn_ball():
 
 
 def spawn_response(response):
+    """
+    Spawns the ascii art for the chat bubble for the 8 ball.
+    :param response:
+    :return:
+    """
     chat_bubble = list()
     chat_bubble.append(f"    / \          \n")
     chat_bubble.append(f" ／￣ 　￣￣￣￣￣￣ \n")
-    chat_bubble.append(f" |　{response}    \n")
-    chat_bubble.append(f" ＼＿＿＿＿＿＿＿＿  \n")
+    chat_bubble.append(f" |　{yellow(bold(response))}    \n")
+    chat_bubble.append(f" ＼＿＿＿＿＿＿＿＿  ")
     return ''.join(chat_bubble)
 
 
@@ -126,14 +139,21 @@ def get_play(msg):
 
 
 def spawn_ui(response):
+    """
+    spawns complete UI with 8-ball and response bubble
+    :param response:
+    :return:
+    """
     print(spawn_ball())
     print(spawn_response(response))
-    play = print(get_play('1 - Yes\n2 - No\n>'))
-    return play
 
 
 def ball_response():
-    rand_response = random.randint(0, 20)
+    """
+    Pre-programmed responses that get randomly generated.
+    :return: final_response:
+    """
+    rand_response = random.randint(0, 19)
     responses = [("affirmative", "It is certain."), ("affirmative", "It is decidedly so."),
                  ("affirmative", "Without a doubt."), ("affirmative", "Yes definitely."),
                  ("affirmative", "As I see it, yes."), ("affirmative", "Most likely."),
@@ -157,15 +177,57 @@ def ball_response():
     return final_response
 
 
-def main():
+def gather_input():
+    """
+    Gather's user's input but does not do anything other the validation.
+    :return:
+    """
+    user_input = input(f'\n[{bold("Question")}]: ')
+    digit_count = 0
+    alpha_count = 0
+
+    # Loop through each character in the input string
+    for char in user_input:
+        if char.isdigit():
+            digit_count += 1
+        elif char.isalpha():
+            alpha_count += 1
+
+    if user_input == '':
+        print(f'\n{bold(red("Error:"))} Question cannot be blank.')
+        gather_input()
+    elif not user_input.endswith('?'):
+        print(f'\n{bold(red("Error:"))} Please end statement with a "?" as it has to be a question.')
+        gather_input()
+    elif digit_count > alpha_count:
+        print(f'\n{bold(red("Error:"))} It seems like there is more digits than letters, are you sure this is a question?')
+        gather_input()
+    else:
+        pass
+
+
+def main1():
+    """
+    Runs main program function
+    :return: 
+    """
     welcome()
     response = 'Would you like to ask me a question?'
-    while True:
+    play = True
+    while play:
         spawn_ui(response)
-        input('Ask the Ball: ') # gather function
+        gather_input()
         response = ball_response()
         clear_screen()
         spawn_ui(response)
+        play = get_play('Would you like to ask me another question?\n1 - Yes\n2 - No\n>')
+        clear_screen()
+        response = "What is your next question?"
+    else:
+        end_string = 'Thank you trying out Magic 8 Ball!'
+        print(f'{bold(end_string)}')
 
 
-main()
+if __name__ == '__main__':
+    main1()
+

@@ -215,6 +215,13 @@ class App(customtkinter.CTk):
         self.end_entry.insert(0, f"{end}") # this will have user's subnet in the end
         self.sidebar_button_2.configure(state="normal")
         self.sidebar_button_3.configure(state="disabled")
+        self.radio_button_1.configure(state="disabled")
+        self.radio_button_2.configure(state="disabled")
+        self.radio_button_3.configure(state="disabled")
+        self.radio_button_4.configure(state="disabled")
+        self.checkbox_1.configure(state="disabled")
+        self.checkbox_2.configure(state="disabled")
+        self.checkbox_3.configure(state="disabled")
         self.checkbox_1.select()
         self.checkbox_2.select()
         self.checkbox_3.select()
@@ -239,7 +246,7 @@ class App(customtkinter.CTk):
             return ping_time
         self.print_debug(f'[{currentTime}] IP Scan ({ip_address}): Running PING process . . .\n')
         ping_response = subprocess.Popen(['ping', '-n', '3', '-w', '350', ip_address],
-                                         stdout=subprocess.PIPE).communicate()[0]
+                                         stdout=subprocess.PIPE, creationflags=subprocess.CREATE_NO_WINDOW).communicate()[0]
         if b'Reply from' in ping_response:
             ping_time = str(ping_response).split("Average =")[1].split("ms")[0] + ' ms'
             self.print_debug(f'[{currentTime}] IP Scan ({ip_address}): Received ping response of{ping_time}.\n')
@@ -253,7 +260,7 @@ class App(customtkinter.CTk):
         message_connect = f'[{currentTime}] Connect ({ip_address}):'
         self.print_debug(f'{message_connect} Running connection test . . .\n')
         response = subprocess.Popen(['ping', '-n', '1', '-w', '350', str(ip_address)],
-                                    stdout=subprocess.PIPE).communicate()[0]
+                                    stdout=subprocess.PIPE, creationflags=subprocess.CREATE_NO_WINDOW).communicate()[0]
         available, not_available = 'Yes', 'No'
         if b'Reply from' in response:
             if stop_scan:

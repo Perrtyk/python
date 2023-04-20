@@ -8,7 +8,7 @@ a = Analysis(
     ['LAN Pigeon.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('c:/users/patryk/appdata/local/packages/pythonsoftwarefoundation.python.3.10_qbz5n2kfra8p0/localcache/local-packages/python310/site-packages/customtkinter', 'customtkinter/')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -31,12 +31,13 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['Assets\\bit_icon.ico'],
 )
 coll = COLLECT(
     exe,
